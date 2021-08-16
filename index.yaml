@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  aiven-kubernetes-operator:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2021-08-16T14:26:33.780763701Z"
+    description: A Helm chart to deploy the aiven k8s operator
+    digest: 733956438071984695498d9868d57cd970133fbbd99e9a579c034ca796768a44
+    name: aiven-kubernetes-operator
+    type: application
+    urls:
+    - https://github.com/aiven/aiven-helm-charts/releases/download/aiven-kubernetes-operator-0.1.0-alpha.1/aiven-kubernetes-operator-0.1.0-alpha.1.tgz
+    version: 0.1.0-alpha.1
+generated: "2021-08-16T14:26:33.780769201Z"
