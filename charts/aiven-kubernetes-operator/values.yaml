@@ -6,7 +6,8 @@ fullnameOverride: ""
 image:
   repository: aiven/aiven-kubernetes-operator
   pullPolicy: IfNotPresent
-  tag: "0.1.0"
+  # default is .Chart.AppVersion but can be overrided here
+  tag: ""
 
 imagePullSecrets: []
 
