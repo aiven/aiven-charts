@@ -52,7 +52,7 @@ Selector labels
 {{- define "aiven-kubernetes-operator.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "aiven-kubernetes-operator.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-aiven.io/control-plane: controller-manager
+control-plane: controller-manager
 {{- end }}
 
 {{/*
