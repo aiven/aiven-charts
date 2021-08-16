@@ -2,7 +2,6 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: {{ include "aiven-kubernetes-operator.namespace" . }}/{{ include "aiven-kubernetes-operator.fullname" . }}-serving-cert
     controller-gen.kubebuilder.io/version: v0.4.1
   name: connectionpools.aiven.io
 spec:
@@ -184,7 +183,6 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: {{ include "aiven-kubernetes-operator.namespace" . }}/{{ include "aiven-kubernetes-operator.fullname" . }}-serving-cert
     controller-gen.kubebuilder.io/version: v0.4.1
   name: databases.aiven.io
 spec:
@@ -336,7 +334,6 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: {{ include "aiven-kubernetes-operator.namespace" . }}/{{ include "aiven-kubernetes-operator.fullname" . }}-serving-cert
     controller-gen.kubebuilder.io/version: v0.4.1
   name: kafkaacls.aiven.io
 spec:
@@ -507,7 +504,6 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: {{ include "aiven-kubernetes-operator.namespace" . }}/{{ include "aiven-kubernetes-operator.fullname" . }}-serving-cert
     controller-gen.kubebuilder.io/version: v0.4.1
   name: kafkaconnects.aiven.io
 spec:
@@ -736,7 +732,6 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: {{ include "aiven-kubernetes-operator.namespace" . }}/{{ include "aiven-kubernetes-operator.fullname" . }}-serving-cert
     controller-gen.kubebuilder.io/version: v0.4.1
   name: kafkas.aiven.io
 spec:
@@ -1322,7 +1317,6 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: {{ include "aiven-kubernetes-operator.namespace" . }}/{{ include "aiven-kubernetes-operator.fullname" . }}-serving-cert
     controller-gen.kubebuilder.io/version: v0.4.1
   name: kafkaschemas.aiven.io
 spec:
@@ -1496,7 +1490,6 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: {{ include "aiven-kubernetes-operator.namespace" . }}/{{ include "aiven-kubernetes-operator.fullname" . }}-serving-cert
     controller-gen.kubebuilder.io/version: v0.4.1
   name: kafkatopics.aiven.io
 spec:
@@ -1767,7 +1760,6 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: {{ include "aiven-kubernetes-operator.namespace" . }}/{{ include "aiven-kubernetes-operator.fullname" . }}-serving-cert
     controller-gen.kubebuilder.io/version: v0.4.1
   name: pgs.aiven.io
 spec:
@@ -2339,7 +2331,6 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: {{ include "aiven-kubernetes-operator.namespace" . }}/{{ include "aiven-kubernetes-operator.fullname" . }}-serving-cert
     controller-gen.kubebuilder.io/version: v0.4.1
   name: projects.aiven.io
 spec:
@@ -2541,7 +2532,6 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: {{ include "aiven-kubernetes-operator.namespace" . }}/{{ include "aiven-kubernetes-operator.fullname" . }}-serving-cert
     controller-gen.kubebuilder.io/version: v0.4.1
   name: projectvpcs.aiven.io
 spec:
@@ -2694,7 +2684,6 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: {{ include "aiven-kubernetes-operator.namespace" . }}/{{ include "aiven-kubernetes-operator.fullname" . }}-serving-cert
     controller-gen.kubebuilder.io/version: v0.4.1
   name: serviceintegrations.aiven.io
 spec:
@@ -2959,7 +2948,6 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: {{ include "aiven-kubernetes-operator.namespace" . }}/{{ include "aiven-kubernetes-operator.fullname" . }}-serving-cert
     controller-gen.kubebuilder.io/version: v0.4.1
   name: serviceusers.aiven.io
 spec:

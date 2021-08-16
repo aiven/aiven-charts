@@ -12,7 +12,7 @@ spec:
   issuerRef:
     kind: Issuer
     name: {{ include "aiven-kubernetes-operator.fullname" . }}-selfsigned-issuer
-  secretName: {{ .Values.webhookSecretName }}
+  secretName: webhook-server-cert
 ---
 apiVersion: cert-manager.io/v1
 kind: Issuer

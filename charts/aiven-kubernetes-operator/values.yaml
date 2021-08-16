@@ -1,19 +1,21 @@
 replicaCount: 1
 
-nameOverride: "aiven-operator"
-fullnameOverride: "aiven-operator"
-
-webhookSecretName: webhook-server-cert
+nameOverride: ""
+fullnameOverride: ""
 
 image:
   repository: aiven/aiven-kubernetes-operator
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: "0.1.0"
+
+dependencies:
+  certManager:
+    install: true
 
 imagePullSecrets: []
 
 resources:
-  limit:
+  limits:
     cpu: 100m
     memory: 128Mi
   requests:

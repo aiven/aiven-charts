@@ -32,25 +32,23 @@ spec:
               containerPort: 9443
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: webhook
           readinessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: webhook
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
           - mountPath: /tmp/k8s-webhook-server/serving-certs
-            name: webhook-cert
+            name: webhook-server-cert
             readOnly: true
       terminationGracePeriodSeconds: 10
       volumes:
-      - name: webhook-cert
+      - name: webhook-server-cert
         secret:
           defaultMode: 420
-          secretName: {{ .Values.webhookSecretname }}
+          secretName: webhook-server-cert
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
