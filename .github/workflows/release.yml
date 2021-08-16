@@ -1,7 +1,6 @@
 name: Release Helm Chart
 on:
   push:
-    # only for the initial phase; use release tags eventually
     branches: [ main ]
 
 jobs:
@@ -26,6 +25,4 @@ jobs:
         uses: helm/chart-releaser-action@v1.2.1
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        with:
-          charts_repo_url: https://raw.githubusercontent.com/<owner>/<repo>/<gh-pages>/
 
