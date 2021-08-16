@@ -8,10 +8,6 @@ image:
   pullPolicy: IfNotPresent
   tag: "0.1.0"
 
-dependencies:
-  certManager:
-    install: true
-
 imagePullSecrets: []
 
 resources:
