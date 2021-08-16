@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
+  namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+  labels:
+    {{- include "aiven-kubernetes-operator.labels" . | nindent 4 }}
+spec:
+  ports:
+    - port: {{ .Values.service.webhookPort }}
+      targetPort: webhook
+      protocol: TCP
+      name: webhook
+  selector:
+    {{- include "aiven-kubernetes-operator.selectorLabels" . | nindent 4 }}

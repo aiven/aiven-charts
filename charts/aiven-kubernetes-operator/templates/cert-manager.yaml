@@ -1,0 +1,26 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "aiven-kubernetes-operator.fullname" . }}-serving-cert
+  namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+  labels:
+    {{- include "aiven-kubernetes-operator.labels" . | nindent 4 }}
+spec:
+  dnsNames:
+  - {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service.{{ include "aiven-kubernetes-operator.namespace" . }}.svc
+  - {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service.{{ include "aiven-kubernetes-operator.namespace" . }}.svc.cluster.local
+  issuerRef:
+    kind: Issuer
+    name: {{ include "aiven-kubernetes-operator.fullname" . }}-selfsigned-issuer
+  secretName: {{ .Values.webhookSecretName }}
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: {{ include "aiven-kubernetes-operator.fullname" . }}-selfsigned-issuer
+  namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+  labels:
+    {{- include "aiven-kubernetes-operator.labels" . | nindent 4 }}
+spec:
+  selfSigned: {}
+---

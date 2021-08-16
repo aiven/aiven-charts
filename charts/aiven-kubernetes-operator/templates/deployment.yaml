@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "aiven-kubernetes-operator.fullname" . }}
+  namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+  labels:
+    {{- include "aiven-kubernetes-operator.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "aiven-kubernetes-operator.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "aiven-kubernetes-operator.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: webhook
+              containerPort: 9443
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: webhook
+          readinessProbe:
+            httpGet:
+              path: /
+              port: webhook
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - mountPath: /tmp/k8s-webhook-server/serving-certs
+            name: webhook-cert
+            readOnly: true
+      terminationGracePeriodSeconds: 10
+      volumes:
+      - name: webhook-cert
+        secret:
+          defaultMode: 420
+          secretName: {{ .Values.webhookSecretname }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

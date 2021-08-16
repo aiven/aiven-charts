@@ -1,0 +1,256 @@
+kind: ValidatingWebhookConfiguration
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: {{ include "aiven-kubernetes-operator.namespace" . }}/{{ include "aiven-kubernetes-operator.fullname" . }}-serving-cert
+  name: {{ include "aiven-kubernetes-operator.fullname" . }}-validating-webhook-configuration
+  namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+  labels:
+    {{- include "aiven-kubernetes-operator.labels" . | nindent 4 }}
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      path: /validate-aiven-io-v1alpha1-connectionpool
+  failurePolicy: Fail
+  name: vconnectionpool.kb.io
+  rules:
+  - apiGroups:
+    - aiven.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - connectionpools
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      path: /validate-aiven-io-v1alpha1-database
+  failurePolicy: Fail
+  name: vdatabase.kb.io
+  rules:
+  - apiGroups:
+    - aiven.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - databases
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      path: /validate-aiven-io-v1alpha1-kafka
+  failurePolicy: Fail
+  name: vkafka.kb.io
+  rules:
+  - apiGroups:
+    - aiven.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - kafkas
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      path: /validate-aiven-io-v1alpha1-kafkaacl
+  failurePolicy: Fail
+  name: vkafkaacl.kb.io
+  rules:
+  - apiGroups:
+    - aiven.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - kafkaacls
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      path: /validate-aiven-io-v1alpha1-kafkaconnect
+  failurePolicy: Fail
+  name: vkafkaconnect.kb.io
+  rules:
+  - apiGroups:
+    - aiven.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - kafkaconnects
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      path: /validate-aiven-io-v1alpha1-kafkaschema
+  failurePolicy: Fail
+  name: vkafkaschema.kb.io
+  rules:
+  - apiGroups:
+    - aiven.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - kafkaschemas
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      path: /validate-aiven-io-v1alpha1-kafkatopic
+  failurePolicy: Fail
+  name: vkafkatopic.kb.io
+  rules:
+  - apiGroups:
+    - aiven.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - kafkatopics
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      path: /validate-aiven-io-v1alpha1-pg
+  failurePolicy: Fail
+  name: vpg.kb.io
+  rules:
+  - apiGroups:
+    - aiven.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - pgs
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      path: /validate-aiven-io-v1alpha1-project
+  failurePolicy: Fail
+  name: vproject.kb.io
+  rules:
+  - apiGroups:
+    - aiven.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - projects
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      path: /validate-aiven-io-v1alpha1-projectvpc
+  failurePolicy: Fail
+  name: vprojectvpc.kb.io
+  rules:
+  - apiGroups:
+    - aiven.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - projectvpcs
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      path: /validate-aiven-io-v1alpha1-serviceintegration
+  failurePolicy: Fail
+  name: vserviceintegration.kb.io
+  rules:
+  - apiGroups:
+    - aiven.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - serviceintegrations
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      path: /validate-aiven-io-v1alpha1-serviceuser
+  failurePolicy: Fail
+  name: vserviceuser.kb.io
+  rules:
+  - apiGroups:
+    - aiven.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - serviceusers
+  sideEffects: None
