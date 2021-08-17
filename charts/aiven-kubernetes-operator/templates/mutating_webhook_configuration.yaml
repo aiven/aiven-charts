@@ -154,7 +154,7 @@ webhooks:
     service:
       name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
       namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
-      path: /mutate-aiven-io-v1alpha1-pg
+      path: /mutate-aiven-io-v1alpha1-postgresql
   failurePolicy: Fail
   name: mpg.kb.io
   rules:
@@ -166,7 +166,7 @@ webhooks:
     - CREATE
     - UPDATE
     resources:
-    - pgs
+    - postgresqls
   sideEffects: None
 - admissionReviewVersions:
   - v1
