@@ -4,3 +4,6 @@ description: A Helm chart to deploy the aiven k8s operator
 type: application
 version: 0.1.0-alpha.1
 appVersion: 0.0.1
+maintainers:
+- name: mhoffm-aiven
+  url: https://www.aiven.io
