@@ -1,12 +1,15 @@
+{{- if .Values.webhooks.enabled }}
+
 apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: {{ include "aiven-kubernetes-operator.namespace" . }}/{{ include "aiven-kubernetes-operator.fullname" . }}-serving-cert
+{{- include "aiven-kubernetes-operator.ca_injection_annotation" . | nindent 4 }}
   name: {{ include "aiven-kubernetes-operator.fullname" . }}-mutating-webhook-configuration
   namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
   labels:
-    {{- include "aiven-kubernetes-operator.labels" . | nindent 4 }}
+{{- include "aiven-kubernetes-operator.labels" . | nindent 4 }}
+
 webhooks:
 - admissionReviewVersions:
   - v1
@@ -248,3 +251,5 @@ webhooks:
     resources:
     - serviceusers
   sideEffects: None
+
+{{- end }}

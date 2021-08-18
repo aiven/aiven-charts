@@ -21,6 +21,3 @@
 .idea/
 *.tmproj
 .vscode/
-
-# ci specific config
-ci/

@@ -10,12 +10,24 @@ helm add repo aiven https://aiven-helm-charts.github.io && helm repo update
 
 ## Installing a chart from the repository
 
-### Installing the aiven-kubernetes-operator chart
+### Installing the aiven-kubernetes-operator-crds chart
 
 ```bash
-helm install \
-  aiven/aiven-kubernetes-operator \
-  --generate-name \
-  --namespace aiven-kubernetes-operator-system \
-  --create-namespace
+helm install aiven/aiven-kubernetes-operator-crds --generate-name
+```
+
+### Installing the aiven-kubernetes-operator chart
+
+Before installing the `aiven-kubernetes-operator` chart, please make sure to have the CRDs chart installed.
+
+Installation with webhooks enabled ( requires a cert-manager deployment in the cluster ):
+
+```bash
+helm install aiven/aiven-kubernetes-operator --generate-name
+```
+
+Without webhooks enabled:
+
+```bash
+helm install aiven/aiven-kubernetes-operator --generate-name --set webhooks.enabled=false
 ```

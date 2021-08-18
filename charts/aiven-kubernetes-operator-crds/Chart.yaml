@@ -1,6 +1,6 @@
 apiVersion: v2
-name: aiven-kubernetes-operator
-description: A Helm chart to deploy the aiven k8s operator
+name: aiven-kubernetes-operator-crds
+description: A Helm chart to deploy the aiven k8s operator custom resource definitions
 type: application
 version: v0.1.0
 appVersion: v0.0.1

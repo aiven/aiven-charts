@@ -3,13 +3,20 @@ replicaCount: 1
 nameOverride: ""
 fullnameOverride: ""
 
+# webhhook configuration
+webhooks:
+  enabled: true
+  servicePort: 443
+
+# generic deployment configurations
 image:
-  repository: aiven/aiven-kubernetes-operator
+  repository: aivenoy/aiven-kubernetes-operator
   pullPolicy: IfNotPresent
-  # default is .Chart.AppVersion but can be overrided here
+  # default is .Chart.AppVersion but can be overriden here
   tag: ""
 
 imagePullSecrets: []
+
 
 resources:
   limits:
@@ -18,9 +25,6 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
-
-service:
-  webhookPort: 443
 
 podAnnotations: {}
 

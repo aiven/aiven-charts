@@ -65,3 +65,10 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Common annotation our custom resource
+*/}}
+{{- define "aiven-kubernetes-operator.ca_injection_annotation" -}}
+cert-manager.io/inject-ca-from: {{ include "aiven-kubernetes-operator.namespace" . }}/webhook-server-cert
+{{- end }}

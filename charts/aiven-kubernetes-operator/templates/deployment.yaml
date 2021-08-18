@@ -4,60 +4,89 @@ metadata:
   name: {{ include "aiven-kubernetes-operator.fullname" . }}
   namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
   labels:
-    {{- include "aiven-kubernetes-operator.labels" . | nindent 4 }}
+{{- include "aiven-kubernetes-operator.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "aiven-kubernetes-operator.selectorLabels" . | nindent 6 }}
+{{- include "aiven-kubernetes-operator.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+{{- with .Values.podAnnotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+{{- toYaml . | nindent 8 }}
+{{- end }}
       labels:
-        {{- include "aiven-kubernetes-operator.selectorLabels" . | nindent 8 }}
+{{- include "aiven-kubernetes-operator.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      terminationGracePeriodSeconds: 10
+
+{{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+{{- toYaml . | nindent 8 }}
+{{- end }}
+
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+
+{{- if ( not .Values.webhooks.enabled ) }}
+          - name: ENABLE_WEBHOOKS
+            value: "false"
+{{- end }}
+
           ports:
+            - name: metrics
+              containerPort: 8080
+              protocol: TCP
+
+{{- if .Values.webhooks.enabled }}
             - name: webhook
               containerPort: 9443
               protocol: TCP
+{{- end }}
+
           livenessProbe:
+            initialDelaySeconds: 15
+            periodSeconds: 10
             tcpSocket:
-              port: webhook
+              port: metrics
           readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 10
             tcpSocket:
-              port: webhook
+              port: metrics
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+{{- toYaml .Values.resources | nindent 12 }}
+
+{{- if .Values.webhooks.enabled }}
           volumeMounts:
           - mountPath: /tmp/k8s-webhook-server/serving-certs
             name: webhook-server-cert
             readOnly: true
-      terminationGracePeriodSeconds: 10
+{{- end }}
+
+{{- if .Values.webhooks.enabled }}
       volumes:
       - name: webhook-server-cert
         secret:
           defaultMode: 420
           secretName: webhook-server-cert
-      {{- with .Values.nodeSelector }}
+{{- end }}
+
+{{- with .Values.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
+{{- toYaml . | nindent 8 }}
+{{- end }}
+
+{{- with .Values.affinity }}
       affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
+{{- toYaml . | nindent 8 }}
+{{- end }}
+
+{{- with .Values.tolerations }}
       tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+{{- toYaml . | nindent 8 }}
+{{- end }}
