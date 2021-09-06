@@ -1,8 +1,10 @@
+{{- if .Values.webhooks.enabled }}
+
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: {{ include "aiven-kubernetes-operator.namespace" . }}/{{ include "aiven-kubernetes-operator.fullname" . }}-serving-cert
+{{- include "aiven-kubernetes-operator.ca_injection_annotation" . | nindent 4 }}
   name: {{ include "aiven-kubernetes-operator.fullname" . }}-validating-webhook-configuration
   namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
   labels:
@@ -255,3 +257,5 @@ webhooks:
     resources:
     - serviceusers
   sideEffects: None
+
+{{- end }}

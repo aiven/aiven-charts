@@ -1,3 +1,5 @@
+{{- if .Values.webhooks.enabled }}
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -7,9 +9,11 @@ metadata:
     {{- include "aiven-kubernetes-operator.labels" . | nindent 4 }}
 spec:
   ports:
-    - port: {{ .Values.service.webhookPort }}
+    - port: {{ .Values.webhooks.servicePort }}
       targetPort: webhook
       protocol: TCP
       name: webhook
   selector:
     {{- include "aiven-kubernetes-operator.selectorLabels" . | nindent 4 }}
+
+{{- end }}

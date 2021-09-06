@@ -1,7 +1,9 @@
+{{- if .Values.webhooks.enabled }}
+
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: {{ include "aiven-kubernetes-operator.fullname" . }}-serving-cert
+  name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-certificate
   namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
   labels:
     {{- include "aiven-kubernetes-operator.labels" . | nindent 4 }}
@@ -13,7 +15,9 @@ spec:
     kind: Issuer
     name: {{ include "aiven-kubernetes-operator.fullname" . }}-selfsigned-issuer
   secretName: webhook-server-cert
+
 ---
+
 apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
@@ -23,4 +27,7 @@ metadata:
     {{- include "aiven-kubernetes-operator.labels" . | nindent 4 }}
 spec:
   selfSigned: {}
+
 ---
+
+{{- end }}
