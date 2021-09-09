@@ -1,14 +1,31 @@
 apiVersion: v1
 entries:
-  aiven-kubernetes-operator:
+  aiven-operator:
   - apiVersion: v2
-    appVersion: 0.0.1
-    created: "2021-08-16T14:26:33.780763701Z"
-    description: A Helm chart to deploy the aiven k8s operator
-    digest: 733956438071984695498d9868d57cd970133fbbd99e9a579c034ca796768a44
-    name: aiven-kubernetes-operator
+    appVersion: v0.0.1
+    created: "2021-09-09T17:13:51.215732232Z"
+    description: A Helm chart to deploy the aiven operator
+    digest: 8eb646404ad20a5107d6959fe509af48fb0361ecd0c52ac38a084c2b1c6752db
+    maintainers:
+    - name: mhoffm-aiven
+      url: https://www.aiven.io
+    name: aiven-operator
     type: application
     urls:
-    - https://github.com/aiven/aiven-helm-charts/releases/download/aiven-kubernetes-operator-0.1.0-alpha.1/aiven-kubernetes-operator-0.1.0-alpha.1.tgz
-    version: 0.1.0-alpha.1
-generated: "2021-08-16T14:26:33.780769201Z"
+    - https://github.com/aiven/aiven-charts/releases/download/aiven-operator-v0.1.0/aiven-operator-v0.1.0.tgz
+    version: v0.1.0
+  aiven-operator-crds:
+  - apiVersion: v2
+    appVersion: v0.0.1
+    created: "2021-09-09T17:13:51.089379406Z"
+    description: A Helm chart to deploy the aiven operator custom resource definitions
+    digest: a2881d1ac3483a128238a8006496dfa5def928215e2ea73ff119f0c6c470a2a1
+    maintainers:
+    - name: mhoffm-aiven
+      url: https://www.aiven.io
+    name: aiven-operator-crds
+    type: application
+    urls:
+    - https://github.com/aiven/aiven-charts/releases/download/aiven-operator-crds-v0.1.0/aiven-operator-crds-v0.1.0.tgz
+    version: v0.1.0
+generated: "2021-09-09T17:13:51.215739733Z"
