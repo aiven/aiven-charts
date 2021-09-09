@@ -1,10 +1,10 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ include "aiven-kubernetes-operator.fullname" . }}-role
-  namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+  name: {{ include "aiven-operator.fullname" . }}-role
+  namespace: {{ include "aiven-operator.namespace" . }}
   labels:
-    {{- include "aiven-kubernetes-operator.labels" . | nindent 4 }}
+    {{- include "aiven-operator.labels" . | nindent 4 }}
 rules:
 - apiGroups:
   - ""
@@ -81,6 +81,26 @@ rules:
   - kafkaacls/status
   verbs:
   - get
+- apiGroups:
+  - aiven.io
+  resources:
+  - kafkaconnectors
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - aiven.io
+  resources:
+  - kafkaconnectors/status
+  verbs:
+  - get
+  - patch
+  - update
 - apiGroups:
   - aiven.io
   resources:
@@ -268,4 +288,3 @@ rules:
   - get
   - list
   - update
-

@@ -26,8 +26,8 @@ jobs:
       - name: Create kind cluster
         uses: helm/kind-action@v1.2.0
 
-      - name: Install aiven-kubernetes-operator CRDs
-        run: helm install charts/aiven-kubernetes-operator-crds --generate-name
+      - name: Install aiven-operator CRDs
+        run: helm install charts/aiven-operator-crds --generate-name
 
-      - name: Test aiven-kubernetes-operator chart
-        run: ct install --charts charts/aiven-kubernetes-operator
+      - name: Test aiven-operator chart
+        run: ct install --charts charts/aiven-operator
