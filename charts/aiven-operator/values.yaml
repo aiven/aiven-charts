@@ -10,7 +10,7 @@ webhooks:
 
 # generic deployment configurations
 image:
-  repository: aivenoy/aiven-kubernetes-operator
+  repository: aivenoy/aiven-operator
   pullPolicy: IfNotPresent
   # default is .Chart.AppVersion but can be overriden here
   tag: ""

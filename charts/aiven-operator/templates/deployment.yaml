@@ -1,15 +1,15 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "aiven-kubernetes-operator.fullname" . }}
-  namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+  name: {{ include "aiven-operator.fullname" . }}
+  namespace: {{ include "aiven-operator.namespace" . }}
   labels:
-{{- include "aiven-kubernetes-operator.labels" . | nindent 4 }}
+{{- include "aiven-operator.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-{{- include "aiven-kubernetes-operator.selectorLabels" . | nindent 6 }}
+{{- include "aiven-operator.selectorLabels" . | nindent 6 }}
   template:
     metadata:
 {{- with .Values.podAnnotations }}
@@ -17,7 +17,7 @@ spec:
 {{- toYaml . | nindent 8 }}
 {{- end }}
       labels:
-{{- include "aiven-kubernetes-operator.selectorLabels" . | nindent 8 }}
+{{- include "aiven-operator.selectorLabels" . | nindent 8 }}
     spec:
       terminationGracePeriodSeconds: 10
 

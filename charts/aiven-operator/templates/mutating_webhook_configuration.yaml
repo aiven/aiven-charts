@@ -4,19 +4,19 @@ apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
   annotations:
-{{- include "aiven-kubernetes-operator.ca_injection_annotation" . | nindent 4 }}
-  name: {{ include "aiven-kubernetes-operator.fullname" . }}-mutating-webhook-configuration
-  namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+{{- include "aiven-operator.ca_injection_annotation" . | nindent 4 }}
+  name: {{ include "aiven-operator.fullname" . }}-mutating-webhook-configuration
+  namespace: {{ include "aiven-operator.namespace" . }}
   labels:
-{{- include "aiven-kubernetes-operator.labels" . | nindent 4 }}
+{{- include "aiven-operator.labels" . | nindent 4 }}
 
 webhooks:
 - admissionReviewVersions:
   - v1
   clientConfig:
     service:
-      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
-      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      name: {{ include "aiven-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-operator.namespace" . }}
       path: /mutate-aiven-io-v1alpha1-connectionpool
   failurePolicy: Fail
   name: mconnectionpool.kb.io
@@ -35,8 +35,8 @@ webhooks:
   - v1
   clientConfig:
     service:
-      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
-      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      name: {{ include "aiven-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-operator.namespace" . }}
       path: /mutate-aiven-io-v1alpha1-database
   failurePolicy: Fail
   name: mdatabase.kb.io
@@ -55,8 +55,8 @@ webhooks:
   - v1
   clientConfig:
     service:
-      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
-      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      name: {{ include "aiven-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-operator.namespace" . }}
       path: /mutate-aiven-io-v1alpha1-kafka
   failurePolicy: Fail
   name: mkafka.kb.io
@@ -75,8 +75,8 @@ webhooks:
   - v1
   clientConfig:
     service:
-      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
-      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      name: {{ include "aiven-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-operator.namespace" . }}
       path: /mutate-aiven-io-v1alpha1-kafkaacl
   failurePolicy: Fail
   name: mkafkaacl.kb.io
@@ -95,8 +95,8 @@ webhooks:
   - v1
   clientConfig:
     service:
-      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
-      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      name: {{ include "aiven-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-operator.namespace" . }}
       path: /mutate-aiven-io-v1alpha1-kafkaconnect
   failurePolicy: Fail
   name: mkafkaconnect.kb.io
@@ -115,8 +115,8 @@ webhooks:
   - v1
   clientConfig:
     service:
-      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
-      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      name: {{ include "aiven-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-operator.namespace" . }}
       path: /mutate-aiven-io-v1alpha1-kafkaschema
   failurePolicy: Fail
   name: mkafkaschema.kb.io
@@ -135,8 +135,8 @@ webhooks:
   - v1
   clientConfig:
     service:
-      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
-      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      name: {{ include "aiven-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-operator.namespace" . }}
       path: /mutate-aiven-io-v1alpha1-kafkatopic
   failurePolicy: Fail
   name: mkafkatopic.kb.io
@@ -155,8 +155,8 @@ webhooks:
   - v1
   clientConfig:
     service:
-      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
-      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      name: {{ include "aiven-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-operator.namespace" . }}
       path: /mutate-aiven-io-v1alpha1-postgresql
   failurePolicy: Fail
   name: mpg.kb.io
@@ -175,8 +175,8 @@ webhooks:
   - v1
   clientConfig:
     service:
-      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
-      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      name: {{ include "aiven-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-operator.namespace" . }}
       path: /mutate-aiven-io-v1alpha1-project
   failurePolicy: Fail
   name: mproject.kb.io
@@ -195,8 +195,8 @@ webhooks:
   - v1
   clientConfig:
     service:
-      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
-      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      name: {{ include "aiven-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-operator.namespace" . }}
       path: /mutate-aiven-io-v1alpha1-projectvpc
   failurePolicy: Fail
   name: mprojectvpc.kb.io
@@ -215,8 +215,8 @@ webhooks:
   - v1
   clientConfig:
     service:
-      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
-      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      name: {{ include "aiven-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-operator.namespace" . }}
       path: /mutate-aiven-io-v1alpha1-serviceintegration
   failurePolicy: Fail
   name: mserviceintegration.kb.io
@@ -235,8 +235,8 @@ webhooks:
   - v1
   clientConfig:
     service:
-      name: {{ include "aiven-kubernetes-operator.fullname" . }}-webhook-service
-      namespace: {{ include "aiven-kubernetes-operator.namespace" . }}
+      name: {{ include "aiven-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-operator.namespace" . }}
       path: /mutate-aiven-io-v1alpha1-serviceuser
   failurePolicy: Fail
   name: mserviceuser.kb.io
