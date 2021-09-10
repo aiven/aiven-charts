@@ -17,7 +17,6 @@ image:
 
 imagePullSecrets: []
 
-
 resources:
   limits:
     cpu: 100m
