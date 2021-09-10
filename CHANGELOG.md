@@ -1,5 +1,8 @@
 # Changelog
 
+## aiven-operator-v0.1.2 - 2021-09-21
+* fix webhook ca injection
+
 ## aiven-operator-v0.1.1 - 2021-09-21
 * add missing webhook config for kafka connectors
 * enable leader election

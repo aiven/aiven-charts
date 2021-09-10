@@ -70,5 +70,5 @@ Create the name of the service account to use
 Common annotation our custom resource
 */}}
 {{- define "aiven-operator.ca_injection_annotation" -}}
-cert-manager.io/inject-ca-from: {{ include "aiven-operator.namespace" . }}/webhook-server-cert
+cert-manager.io/inject-ca-from: {{ include "aiven-operator.namespace" . }}/{{ include "aiven-operator.fullname" . }}-webhook-certificate
 {{- end }}
