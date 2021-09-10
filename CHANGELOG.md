@@ -1,0 +1,8 @@
+# Changelog
+
+## aiven-operator-v0.1.1 - 2021-09-21
+* add missing webhook config for kafka connectors
+* enable leader election
+
+## aiven-operator-crds-v0.1.1 - 2021-09-21
+* sync with aiven-operator v0.1.0 CRDs

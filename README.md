@@ -5,7 +5,7 @@ This repository contains official Helm charts that are maintained by [Aiven](htt
 ## Adding the repository
 
 ```bash
-helm repo add aiven https://aiven-charts.github.io && helm repo update
+helm repo add aiven aiven https://aiven.github.io/aiven-charts && helm repo update
 ```
 
 ## Installing a chart from the repository
@@ -13,7 +13,7 @@ helm repo add aiven https://aiven-charts.github.io && helm repo update
 ### Installing the aiven-operator-crds chart
 
 ```bash
-helm install aiven/aiven-operator-crds --generate-name
+helm install aiven-operator-crds aiven/aiven-operator-crds
 ```
 
 ### Installing the aiven-operator chart
@@ -23,11 +23,11 @@ Before installing the `aiven-operator` chart, please make sure to have the CRDs 
 Installation with webhooks enabled ( requires a cert-manager deployment in the cluster ):
 
 ```bash
-helm install aiven/aiven-operator --generate-name
+helm install aiven-operator aiven/aiven-operator
 ```
 
 Without webhooks enabled:
 
 ```bash
-helm install aiven/aiven-operator --generate-name --set webhooks.enabled=false
+helm install aiven-operator aiven/aiven-operator --set webhooks.enabled=false
 ```

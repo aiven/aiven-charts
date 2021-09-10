@@ -30,6 +30,10 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+          - /manager
+          args: 
+          - --enable-leader-election
           env:
 
 {{- if ( not .Values.webhooks.enabled ) }}
@@ -53,11 +57,13 @@ spec:
             periodSeconds: 10
             tcpSocket:
               port: metrics
+
           readinessProbe:
             initialDelaySeconds: 5
             periodSeconds: 10
             tcpSocket:
               port: metrics
+
           resources:
 {{- toYaml .Values.resources | nindent 12 }}
 
