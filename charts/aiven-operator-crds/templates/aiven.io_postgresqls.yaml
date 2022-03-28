@@ -481,11 +481,11 @@ spec:
                   pg_version:
                     description: PostgreSQL major version
                     enum:
-                    - "9.5"
                     - "9.6"
                     - "10"
                     - "11"
                     - "12"
+                    - "13"
                     type: string
                   pgbouncer:
                     description: PGBouncer connection pooling settings
