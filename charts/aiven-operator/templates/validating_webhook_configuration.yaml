@@ -16,6 +16,47 @@ webhooks:
     service:
       name: {{ include "aiven-operator.fullname" . }}-webhook-service
       namespace: {{ include "aiven-operator.namespace" . }}
+      path: /validate-aiven-io-v1alpha1-clickhouse
+  failurePolicy: Fail
+  name: vclickhouse.kb.io
+  rules:
+  - apiGroups:
+    - aiven.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - clickhouses
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "aiven-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-operator.namespace" . }}
+      path: /validate-aiven-io-v1alpha1-clickhouseuser
+  failurePolicy: Fail
+  name: vclickhouseuser.kb.io
+  rules:
+  - apiGroups:
+    - aiven.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - clickhouseusers
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "aiven-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-operator.namespace" . }}
       path: /validate-aiven-io-v1alpha1-connectionpool
   failurePolicy: Fail
   name: vconnectionpool.kb.io
@@ -175,6 +216,27 @@ webhooks:
     - DELETE
     resources:
     - kafkatopics
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: {{ include "aiven-operator.fullname" . }}-webhook-service
+      namespace: {{ include "aiven-operator.namespace" . }}
+      path: /validate-aiven-io-v1alpha1-opensearch
+  failurePolicy: Fail
+  name: vopensearch.kb.io
+  rules:
+  - apiGroups:
+    - aiven.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - opensearches
   sideEffects: None
 - admissionReviewVersions:
   - v1

@@ -75,6 +75,16 @@ spec:
                 required:
                 - name
                 type: object
+              disk_space:
+                description: The disk space of the service, possible values depend
+                  on the service type, the cloud provider and the project. Reducing
+                  will result in the service re-balancing.
+                format: ^[1-9][0-9]*(GiB|G)*
+                type: string
+              karapace:
+                description: Switch the service to use Karapace for schema registry
+                  and REST proxy
+                type: boolean
               maintenanceWindowDow:
                 description: Day of week when maintenance operations should be performed.
                   One monday, tuesday, wednesday, etc.
@@ -603,18 +613,6 @@ spec:
                     type: object
                   kafka_version:
                     description: Kafka major version
-                    enum:
-                    - "1.0"
-                    - "1.1"
-                    - "2.0"
-                    - "2.1"
-                    - "2.2"
-                    - "2.3"
-                    - "2.4"
-                    - "2.5"
-                    - "2.6"
-                    - "2.7"
-                    - "2.8"
                     type: string
                   private_access:
                     description: Allow access to selected service ports from private
