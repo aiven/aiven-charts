@@ -6,20 +6,20 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.7.0
   creationTimestamp: null
-  name: redis.aiven.io
+  name: clickhouses.aiven.io
 spec:
   group: aiven.io
   names:
-    kind: Redis
-    listKind: RedisList
-    plural: redis
-    singular: redis
+    kind: Clickhouse
+    listKind: ClickhouseList
+    plural: clickhouses
+    singular: clickhouse
   scope: Namespaced
   versions:
   - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: Redis is the Schema for the redis API
+        description: Clickhouse is the Schema for the clickhouses API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -34,7 +34,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: RedisSpec defines the desired state of Redis
+            description: ClickhouseSpec defines the desired state of Clickhouse
             properties:
               authSecretRef:
                 description: Authentication reference to Aiven token in a secret
@@ -62,11 +62,6 @@ spec:
                 required:
                 - name
                 type: object
-              disk_space:
-                description: The disk space of the service, possible values depend
-                  on the service type, the cloud provider and the project. Reducing
-                  will result in the service re-balancing.
-                type: string
               maintenanceWindowDow:
                 description: Day of week when maintenance operations should be performed.
                   One monday, tuesday, wednesday, etc.
@@ -103,193 +98,32 @@ spec:
                   to have this enabled for all services.
                 type: boolean
               userConfig:
-                description: Redis specific user configuration options
+                description: OpenSearch specific user configuration options
                 properties:
                   ip_filter:
-                    description: IP filter Allow incoming connections from CIDR address
-                      block, e.g. '10.20.0.0/16'
+                    description: 'Glob pattern and number of indexes matching that
+                      pattern to be kept Allows you to create glob style patterns
+                      and set a max number of indexes matching this pattern you want
+                      to keep. Creating indexes exceeding this value will cause the
+                      oldest one to get deleted. You could for example create a pattern
+                      looking like ''logs.?'' and then create index logs.1, logs.2
+                      etc, it will delete logs.1 once you create logs.6. Do note ''logs.?''
+                      does not apply to logs.10. Note: Setting max_index_count to
+                      0 will do nothing and the pattern gets ignored. IP filter Allow
+                      incoming connections from CIDR address block, e.g. ''10.20.0.0/16'''
                     items:
                       type: string
                     type: array
-                  migration:
-                    description: Migrate data from existing server
-                    properties:
-                      dbname:
-                        description: Database name for bootstrapping the initial connection
-                        maxLength: 63
-                        type: string
-                      host:
-                        description: Hostname or IP address of the server where to
-                          migrate data from
-                        maxLength: 255
-                        type: string
-                      ignore_dbs:
-                        description: Comma-separated list of databases, which should
-                          be ignored during migration (supported by MySQL only at
-                          the moment)
-                        maxLength: 2048
-                        type: string
-                      password:
-                        description: Password for authentication with the server where
-                          to migrate data from
-                        maxLength: 256
-                        type: string
-                      port:
-                        description: Port number of the server where to migrate data
-                          from
-                        format: int64
-                        maximum: 65535
-                        minimum: 1
-                        type: integer
-                      ssl:
-                        description: The server where to migrate data from is secured
-                          with SSL
-                        type: boolean
-                      username:
-                        description: User name for authentication with the server
-                          where to migrate data from
-                        maxLength: 256
-                        type: string
-                    type: object
-                  private_access:
-                    description: Allow access to selected service ports from private
-                      networks
-                    properties:
-                      prometheus:
-                        description: Allow clients to connect to prometheus with a
-                          DNS name that always resolves to the service's private IP
-                          addresses. Only available in certain network locations
-                        type: boolean
-                      redis:
-                        description: Allow clients to connect to redis with a DNS
-                          name that always resolves to the service's private IP addresses.
-                          Only available in certain network locations
-                        type: boolean
-                    type: object
-                  privatelink_access:
-                    description: Allow access to selected service components through
-                      Privatelink
-                    properties:
-                      redis:
-                        description: Enable redis
-                        type: boolean
-                    type: object
                   project_to_fork_from:
                     description: Name of another project to fork a service from. This
                       has effect only when a new service is being created.
                     maxLength: 63
                     type: string
-                  public_access:
-                    description: Allow access to selected service ports from the public
-                      internet
-                    properties:
-                      prometheus:
-                        description: Allow clients to connect to prometheus from the
-                          public internet for service nodes that are in a project
-                          VPC or another type of private network
-                        type: boolean
-                      redis:
-                        description: Allow clients to connect to redis from the public
-                          internet for service nodes that are in a project VPC or
-                          another type of private network
-                        type: boolean
-                    type: object
-                  recovery_basebackup_name:
-                    description: Name of the basebackup to restore in forked service
-                    format: ^[a-zA-Z0-9-_:.]+$
-                    maxLength: 128
-                    type: string
-                  redis_acl_channels_default:
-                    description: Default ACL for pub/sub channels used when Redis
-                      user is created Determines default pub/sub channels' ACL for
-                      new users if ACL is not supplied. When this option is not defined,
-                      all_channels is assumed to keep backward compatibility. This
-                      option doesn't affect Redis configuration acl-pubsub-default.
-                    enum:
-                    - allchannels
-                    - resetchannels
-                    type: string
-                  redis_io_threads:
-                    description: Redis IO thread count
-                    format: int64
-                    maximum: 32
-                    minimum: 1
-                    type: integer
-                  redis_lfu_decay_time:
-                    description: LFU maxmemory-policy counter decay time in minutes
-                    format: int64
-                    maximum: 120
-                    minimum: 1
-                    type: integer
-                  redis_lfu_log_factor:
-                    description: Counter logarithm factor for volatile-lfu and allkeys-lfu
-                      maxmemory-policies
-                    format: int64
-                    maximum: 100
-                    minimum: 0
-                    type: integer
-                  redis_maxmemory_policy:
-                    description: Redis maxmemory-policy
-                    enum:
-                    - noeviction
-                    - allkeys-lru
-                    - volatile-lru
-                    - allkeys-random
-                    - volatile-random
-                    - volatile-ttl
-                    - volatile-lfu
-                    - allkeys-lfu
-                    type: string
-                  redis_notify_keyspace_events:
-                    description: Set notify-keyspace-events option
-                    maxLength: 32
-                    type: string
-                  redis_number_of_databases:
-                    description: Number of redis databases Set number of redis databases.
-                      Changing this will cause a restart of redis service.
-                    format: int64
-                    maximum: 128
-                    minimum: 1
-                    type: integer
-                  redis_persistence:
-                    description: Redis persistence When persistence is 'rdb', Redis
-                      does RDB dumps each 10 minutes if any key is changed. Also RDB
-                      dumps are done according to backup schedule for backup purposes.
-                      When persistence is 'off', no RDB dumps and backups are done,
-                      so data can be lost at any moment if service is restarted for
-                      any reason, or if service is powered off. Also service can't
-                      be forked.
-                    enum:
-                    - "off"
-                    - rdb
-                    type: string
-                  redis_pubsub_client_output_buffer_limit:
-                    description: Pub/sub client output buffer hard limit in MB Set
-                      output buffer limit for pub / sub clients in MB. The value is
-                      the hard limit, the soft limit is 1/4 of the hard limit. When
-                      setting the limit, be mindful of the available memory in the
-                      selected service plan.
-                    format: int64
-                    maximum: 512
-                    minimum: 32
-                    type: integer
-                  redis_ssl:
-                    description: Require SSL to access Redis
-                    type: boolean
-                  redis_timeout:
-                    description: Redis idle connection timeout
-                    format: int64
-                    maximum: 31536000
-                    minimum: 0
-                    type: integer
                   service_to_fork_from:
                     description: Name of another service to fork from. This has effect
                       only when a new service is being created.
                     maxLength: 63
                     type: string
-                  static_ips:
-                    description: Static IP addresses Use static public IP addresses
-                    type: boolean
                 type: object
             required:
             - authSecretRef
