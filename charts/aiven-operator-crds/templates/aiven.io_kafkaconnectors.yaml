@@ -85,8 +85,8 @@ spec:
                 additionalProperties:
                   type: string
                 description: The connector specific configuration To build config
-                  values from secret the template function {{`{{ fromSecret "name" "key" }}`}}
-                  is provided when interpreting the keys
+                  values from secret the template function {{`{{ fromSecret "name" "key"
+                  }}`}} is provided when interpreting the keys
                 type: object
             required:
             - authSecretRef
