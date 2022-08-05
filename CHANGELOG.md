@@ -1,5 +1,8 @@
 # Changelog
 
+## aiven-operator-v0.4.0 - 2022-08-04
+* sync with aiven-operator v0.4.0
+
 ## aiven-operator-v0.2.0 - 2021-11-17
 * sync with aiven-operator v0.2.0
 

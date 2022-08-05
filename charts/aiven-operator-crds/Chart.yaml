@@ -2,10 +2,10 @@ apiVersion: v2
 name: aiven-operator-crds
 description: A Helm chart to deploy the aiven operator custom resource definitions
 type: application
-version: v0.3.0
-appVersion: v0.3.0
+version: v0.4.0
+appVersion: v0.4.0
 maintainers:
-- name: mhoffm-aiven
-  url: https://www.aiven.io
-- name: ivan-savciuc
-  url: https://www.aiven.io
+  - name: mhoffm-aiven
+    url: https://www.aiven.io
+  - name: ivan-savciuc
+    url: https://www.aiven.io
