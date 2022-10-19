@@ -48,7 +48,7 @@ spec:
 
 {{- if .Values.webhooks.enabled }}
             - name: webhook
-              containerPort: 9443
+              containerPort: {{ .Values.webhooks.containerPort | default 9443 }}
               protocol: TCP
 {{- end }}
 
