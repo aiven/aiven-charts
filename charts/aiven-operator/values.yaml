@@ -42,6 +42,17 @@ resources:
 
 podAnnotations: {}
 
+podSecurityContext: {}
+  # nAsNonRoot: true
+  # runAsUser: 65532
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # allowPrivilegeEscalation: false
+
 autoscaling:
   enabled: false
   minReplicas: 1
