@@ -43,7 +43,7 @@ resources:
 podAnnotations: {}
 
 podSecurityContext: {}
-  # nAsNonRoot: true
+  # runAsNonRoot: true
   # runAsUser: 65532
 
 securityContext: {}
