@@ -11,5 +11,5 @@ roleRef:
   name: {{ include "aiven-operator.fullname" . }}-election-role
 subjects:
 - kind: ServiceAccount
-  name: default
+  name: {{ include "aiven-operator.serviceAccountName" . }}
   namespace: {{ include "aiven-operator.namespace" . }}
