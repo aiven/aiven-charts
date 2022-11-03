@@ -3,6 +3,21 @@ entries:
   aiven-operator:
   - apiVersion: v2
     appVersion: v0.4.0
+    created: "2022-11-03T13:44:40.378906785Z"
+    description: A Helm chart to deploy the aiven operator
+    digest: d2bf57c5c06a0d303fb93643735dc158adb5b24cd9f49aa42902700ad634eb5c
+    maintainers:
+    - name: mhoffm-aiven
+      url: https://www.aiven.io
+    - name: ivan-savciuc
+      url: https://www.aiven.io
+    name: aiven-operator
+    type: application
+    urls:
+    - https://github.com/aiven/aiven-charts/releases/download/aiven-operator-v0.4.1/aiven-operator-v0.4.1.tgz
+    version: v0.4.1
+  - apiVersion: v2
+    appVersion: v0.4.0
     created: "2022-08-05T07:15:18.598744543Z"
     description: A Helm chart to deploy the aiven operator
     digest: 1fb01390e47e1bea03379ac01a44c7d1d95ea7ec5b42c02ea1a42a54c4f533d0
@@ -153,4 +168,4 @@ entries:
     urls:
     - https://github.com/aiven/aiven-charts/releases/download/aiven-operator-crds-v0.1.0/aiven-operator-crds-v0.1.0.tgz
     version: v0.1.0
-generated: "2022-08-05T07:15:18.598774642Z"
+generated: "2022-11-03T13:44:40.379057487Z"
