@@ -37,16 +37,24 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command:
-          - /manager
-          args: 
-          - --enable-leader-election
           env:
-
-{{- if ( not .Values.webhooks.enabled ) }}
-          - name: ENABLE_WEBHOOKS
-            value: "false"
-{{- end }}
+            {{- if and (.Values.defaultTokenSecret.name) (.Values.defaultTokenSecret.key)}}
+            - name: DEFAULT_AIVEN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: {{ .Values.defaultTokenSecret.key }}
+                  name: {{ .Values.defaultTokenSecret.name }}
+            {{- end }}
+            {{- if ( not .Values.webhooks.enabled ) }}
+            - name: ENABLE_WEBHOOKS
+              value: "false"
+            {{- end }}
+          command:
+            - /manager
+          args:
+            - --leader-elect={{ .Values.leaderElect }}
+            - --metrics-bind-address={{ .Values.metricsBindAddress }}
+            - --health-probe-bind-address={{ .Values.healthProbeBindAddress }}
 
           ports:
             - name: metrics
@@ -76,17 +84,17 @@ spec:
 
 {{- if .Values.webhooks.enabled }}
           volumeMounts:
-          - mountPath: /tmp/k8s-webhook-server/serving-certs
-            name: webhook-server-cert
-            readOnly: true
+            - mountPath: /tmp/k8s-webhook-server/serving-certs
+              name: webhook-server-cert
+              readOnly: true
 {{- end }}
 
 {{- if .Values.webhooks.enabled }}
       volumes:
-      - name: webhook-server-cert
-        secret:
-          defaultMode: 420
-          secretName: webhook-server-cert
+        - name: webhook-server-cert
+          secret:
+            defaultMode: 420
+            secretName: webhook-server-cert
 {{- end }}
 
 {{- with .Values.nodeSelector }}
