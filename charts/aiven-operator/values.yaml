@@ -6,6 +6,17 @@ replicaCount: 1
 
 nameOverride: ""
 fullnameOverride: ""
+metricsBindAddress: ""
+healthProbeBindAddress: ""
+leaderElect: true
+
+# Default Aiven Token secret
+# Please create a secret before Aiven provider installation.
+# It is expected to be in the same namespace where the Aiven
+# operator will be installed and should contain a valid Aiven API Token.
+defaultTokenSecret:
+  name: ""
+  key: "token"
 
 # webhhook configuration
 webhooks:

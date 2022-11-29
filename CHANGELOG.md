@@ -1,7 +1,10 @@
 # Changelog
 
 ## [MAJOR.MINOR.PATCH] - YYYY-MM-DD
-+ add `webhooks.containerPort` value
+
+## aiven-operator-v0.5.0 - 2022-11-28
+
+sync with aiven-operator v0.5.0
 
 ## aiven-operator-v0.4.0 - 2022-08-04
 * sync with aiven-operator v0.4.0
