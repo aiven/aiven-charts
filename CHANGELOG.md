@@ -2,6 +2,9 @@
 
 ## [MAJOR.MINOR.PATCH] - YYYY-MM-DD
 
+## aiven-operator-v0.6.0 - 2023-01-16
+* sync with aiven-operator v0.6.0
+
 ## aiven-operator-v0.5.1 - 2022-11-29
 * sync with aiven-operator v0.5.1
 
