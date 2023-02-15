@@ -335,26 +335,6 @@ webhooks:
       service:
         name: {{ include "aiven-operator.fullname" . }}-webhook-service
         namespace: {{ include "aiven-operator.namespace" . }}
-        path: /mutate-aiven-io-v1alpha1-projectvpc
-    failurePolicy: Fail
-    name: mprojectvpc.kb.io
-    rules:
-      - apiGroups:
-          - aiven.io
-        apiVersions:
-          - v1alpha1
-        operations:
-          - CREATE
-          - UPDATE
-        resources:
-          - projectvpcs
-    sideEffects: None
-  - admissionReviewVersions:
-      - v1
-    clientConfig:
-      service:
-        name: {{ include "aiven-operator.fullname" . }}-webhook-service
-        namespace: {{ include "aiven-operator.namespace" . }}
         path: /mutate-aiven-io-v1alpha1-redis
     failurePolicy: Fail
     name: mredis.kb.io
