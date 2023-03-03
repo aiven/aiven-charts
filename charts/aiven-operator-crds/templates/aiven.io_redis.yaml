@@ -44,6 +44,9 @@ spec:
                   name:
                     minLength: 1
                     type: string
+                required:
+                - key
+                - name
                 type: object
               cloudName:
                 description: Cloud the service runs in.
@@ -53,7 +56,8 @@ spec:
                 description: Information regarding secret creation
                 properties:
                   name:
-                    description: Name of the Secret resource to be created
+                    description: Name of the secret resource to be created. By default,
+                      is equal to the resource name
                     type: string
                 required:
                 - name
@@ -117,6 +121,8 @@ spec:
                 - message: Value is immutable
                   rule: self == oldSelf
               serviceIntegrations:
+                description: Service integrations to specify when creating a service.
+                  Not applied after initial service creation
                 items:
                   description: Service integrations to specify when creating a service.
                     Not applied after initial service creation

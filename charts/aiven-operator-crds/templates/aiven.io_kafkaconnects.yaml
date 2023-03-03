@@ -48,6 +48,9 @@ spec:
                   name:
                     minLength: 1
                     type: string
+                required:
+                - key
+                - name
                 type: object
               cloudName:
                 description: Cloud the service runs in.
@@ -106,6 +109,8 @@ spec:
                 - message: Value is immutable
                   rule: self == oldSelf
               serviceIntegrations:
+                description: Service integrations to specify when creating a service.
+                  Not applied after initial service creation
                 items:
                   description: Service integrations to specify when creating a service.
                     Not applied after initial service creation
@@ -138,7 +143,7 @@ spec:
                   to have this enabled for all services.
                 type: boolean
               userConfig:
-                description: PostgreSQL specific user configuration options
+                description: KafkaConnect specific user configuration options
                 properties:
                   additional_backup_regions:
                     description: Additional Cloud Regions for Backup Replication

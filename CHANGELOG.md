@@ -2,6 +2,9 @@
 
 ## [MAJOR.MINOR.PATCH] - YYYY-MM-DD
 
+## aiven-operator-v0.9.0 - 2023-03-03
+* sync with aiven-operator v0.9.0
+
 ## aiven-operator-v0.8.1 - 2023-02-24
 * fix ClusterRole template
 
