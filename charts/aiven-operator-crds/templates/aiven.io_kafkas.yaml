@@ -281,6 +281,8 @@ spec:
                           for logs. Consider setting log.cleaner.max.compaction.lag.ms
                           to enforce compactions sooner, instead of setting a very
                           high value for this option.
+                        maximum: 0.9
+                        minimum: 0.2
                         type: number
                       log_cleaner_min_compaction_lag_ms:
                         description: The minimum time a message will remain uncompacted
@@ -668,7 +670,6 @@ spec:
                   kafka_version:
                     description: Kafka major version
                     enum:
-                    - "3.2"
                     - "3.3"
                     type: string
                   private_access:
@@ -786,6 +787,7 @@ spec:
                     type: boolean
                 type: object
             required:
+            - plan
             - project
             type: object
           status:
@@ -798,8 +800,8 @@ spec:
                   description: "Condition contains details for one aspect of the current
                     state of this API Resource. --- This struct is intended for direct
                     use as an array at the field path .status.conditions.  For example,
-                    type FooStatus struct{ // Represents the observations of a foo's
-                    current state. // Known .status.conditions.type are: \"Available\",
+                    \n type FooStatus struct{ // Represents the observations of a
+                    foo's current state. // Known .status.conditions.type are: \"Available\",
                     \"Progressing\", and \"Degraded\" // +patchMergeKey=type // +patchStrategy=merge
                     // +listType=map // +listMapKey=type Conditions []metav1.Condition
                     `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\"
