@@ -55,6 +55,18 @@ spec:
               connInfoSecretTarget:
                 description: Information regarding secret creation
                 properties:
+                  annotations:
+                    additionalProperties:
+                      type: string
+                    description: Annotations added to the secret
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
+                  labels:
+                    additionalProperties:
+                      type: string
+                    description: Labels added to the secret
+                    type: object
+                    x-kubernetes-preserve-unknown-fields: true
                   name:
                     description: Name of the secret resource to be created. By default,
                       is equal to the resource name
@@ -389,7 +401,7 @@ spec:
                         description: Maximum number of aggregation buckets allowed
                           in a single response. OpenSearch default value is used when
                           this is not defined.
-                        maximum: 20000
+                        maximum: 65536
                         minimum: 1
                         type: integer
                       thread_pool_analyze_queue_size:
