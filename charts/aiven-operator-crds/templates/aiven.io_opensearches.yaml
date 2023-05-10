@@ -53,7 +53,8 @@ spec:
                 maxLength: 256
                 type: string
               connInfoSecretTarget:
-                description: Information regarding secret creation
+                description: "Information regarding secret creation. \n Exposed keys:
+                  `OPENSEARCH_HOST`, `OPENSEARCH_PORT`, `OPENSEARCH_USER`, `OPENSEARCH_PASSWORD`"
                 properties:
                   annotations:
                     additionalProperties:
@@ -70,6 +71,11 @@ spec:
                   name:
                     description: Name of the secret resource to be created. By default,
                       is equal to the resource name
+                    type: string
+                  prefix:
+                    description: Prefix for the secret's keys. Added "as is" without
+                      any transformations. By default, is equal to the kind name in
+                      uppercase + underscore, e.g. `KAFKA_`, `REDIS_`, etc.
                     type: string
                 required:
                 - name
@@ -599,6 +605,14 @@ spec:
                           with the IdP.
                         maxLength: 2048
                         minLength: 1
+                        type: string
+                      idp_pemtrustedcas_content:
+                        description: This parameter specifies the PEM-encoded root
+                          certificate authority (CA) content for the SAML identity
+                          provider (IdP) server verification. The root CA content
+                          is used to verify the SSL/TLS certificate presented by the
+                          server.
+                        maxLength: 16384
                         type: string
                       roles_key:
                         description: Optional. Specifies the attribute in the SAML
