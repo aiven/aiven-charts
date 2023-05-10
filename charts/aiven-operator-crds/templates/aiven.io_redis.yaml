@@ -53,7 +53,8 @@ spec:
                 maxLength: 256
                 type: string
               connInfoSecretTarget:
-                description: Information regarding secret creation
+                description: "Information regarding secret creation. \n Exposed keys:
+                  `REDIS_HOST`, `REDIS_PORT`, `REDIS_USER`, `REDIS_PASSWORD`"
                 properties:
                   annotations:
                     additionalProperties:
@@ -70,6 +71,11 @@ spec:
                   name:
                     description: Name of the secret resource to be created. By default,
                       is equal to the resource name
+                    type: string
+                  prefix:
+                    description: Prefix for the secret's keys. Added "as is" without
+                      any transformations. By default, is equal to the kind name in
+                      uppercase + underscore, e.g. `KAFKA_`, `REDIS_`, etc.
                     type: string
                 required:
                 - name
