@@ -66,9 +66,9 @@ spec:
                 maxLength: 256
                 type: string
               connInfoSecretTarget:
-                description: "Information regarding secret creation. \n Exposed keys:
+                description: 'Information regarding secret creation. Exposed keys:
                   `KAFKA_HOST`, `KAFKA_PORT`, `KAFKA_USERNAME`, `KAFKA_PASSWORD`,
-                  `KAFKA_ACCESS_CERT`, `KAFKA_ACCESS_KEY`"
+                  `KAFKA_ACCESS_CERT`, `KAFKA_ACCESS_KEY`'
                 properties:
                   annotations:
                     additionalProperties:
@@ -679,6 +679,12 @@ spec:
                         maximum: 5000
                         minimum: 0
                         type: integer
+                      producer_max_request_size:
+                        description: The maximum size of a request in bytes. Note
+                          that Kafka broker can also cap the record batch size.
+                        maximum: 2147483647
+                        minimum: 0
+                        type: integer
                       simpleconsumer_pool_size_max:
                         description: Maximum number of SimpleConsumers that can be
                           instantiated per broker
@@ -690,6 +696,8 @@ spec:
                     description: Kafka major version
                     enum:
                     - "3.3"
+                    - "3.1"
+                    - "3.4"
                     type: string
                   private_access:
                     description: Allow access to selected service ports from private
@@ -885,9 +893,6 @@ spec:
               state:
                 description: Service state
                 type: string
-            required:
-            - conditions
-            - state
             type: object
         type: object
     served: true

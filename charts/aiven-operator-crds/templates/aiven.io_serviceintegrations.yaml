@@ -244,6 +244,13 @@ spec:
                         description: Enable Datadog Opensearch Primary Shard Monitoring
                         type: boolean
                     type: object
+                  redis:
+                    description: Datadog Redis Options
+                    properties:
+                      command_stats_enabled:
+                        description: Enable command_stats option in the agent's configuration
+                        type: boolean
+                    type: object
                 type: object
               destinationEndpointId:
                 description: Destination endpoint for the integration (if any)
@@ -427,6 +434,18 @@ spec:
                         maximum: 134217728
                         minimum: 5242880
                         type: integer
+                      producer_compression_type:
+                        description: Specify the default compression type for producers.
+                          This configuration accepts the standard compression codecs
+                          ('gzip', 'snappy', 'lz4', 'zstd'). It additionally accepts
+                          'none' which is the default and equivalent to no compression.
+                        enum:
+                        - gzip
+                        - snappy
+                        - lz4
+                        - zstd
+                        - none
+                        type: string
                       producer_linger_ms:
                         description: The linger time (ms) for waiting new data to
                           arrive for publishing.
