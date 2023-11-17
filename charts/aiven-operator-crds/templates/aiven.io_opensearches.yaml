@@ -379,6 +379,8 @@ spec:
                                 type: integer
                               authentication_backend:
                                 description: internal_authentication_backend_limiting.authentication_backend
+                                enum:
+                                - internal
                                 maxLength: 1024
                                 type: string
                               block_expiry_seconds:
@@ -406,6 +408,8 @@ spec:
                                 type: integer
                               type:
                                 description: internal_authentication_backend_limiting.type
+                                enum:
+                                - username
                                 maxLength: 1024
                                 type: string
                             type: object
@@ -443,6 +447,8 @@ spec:
                                 type: integer
                               type:
                                 description: The type of rate limiting
+                                enum:
+                                - ip
                                 maxLength: 1024
                                 type: string
                             type: object
@@ -509,6 +515,22 @@ spec:
                           down indexing; too high value will increase indexing performance
                           but causes performance issues for query performance.
                         maximum: 40
+                        minimum: 3
+                        type: integer
+                      indices_memory_max_index_buffer_size:
+                        description: Absolute value. Default is unbound. Doesn't work
+                          without indices.memory.index_buffer_size. Maximum amount
+                          of heap used for query cache, an absolute indices.memory.index_buffer_size
+                          maximum hard limit.
+                        maximum: 2048
+                        minimum: 3
+                        type: integer
+                      indices_memory_min_index_buffer_size:
+                        description: Absolute value. Default is 48mb. Doesn't work
+                          without indices.memory.index_buffer_size. Minimum amount
+                          of heap used for query cache, an absolute indices.memory.index_buffer_size
+                          minimal hard limit.
+                        maximum: 2048
                         minimum: 3
                         type: integer
                       indices_queries_cache_size:
@@ -594,7 +616,7 @@ spec:
                         description: Maximum number of aggregation buckets allowed
                           in a single response. OpenSearch default value is used when
                           this is not defined.
-                        maximum: 65536
+                        maximum: 1000000
                         minimum: 1
                         type: integer
                       thread_pool_analyze_queue_size:
