@@ -12,4 +12,4 @@ helm repo add aiven https://aiven.github.io/aiven-charts && helm repo update
 
 ### Installing the aiven-operator
 
-Please see the [installation instructions](https://aiven.github.io/aiven-operator/docs/installation/helm/) in the [Aiven Operator for Kubernetes](https://github.com/aiven/aiven-operator) documentation.
+Please see the [installation instructions](https://aiven.github.io/aiven-operator/installation/helm.html) in the [Aiven Operator for Kubernetes](https://github.com/aiven/aiven-operator) documentation.
