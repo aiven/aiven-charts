@@ -8,8 +8,8 @@ updates:
       main:
         applies-to: version-updates
         patterns:
-          - '*'
+          - "*"
       sec:
         applies-to: security-updates
         patterns:
-          - '*'
+          - "*"
