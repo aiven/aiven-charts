@@ -57,7 +57,7 @@ spec:
                 connInfoSecretTarget:
                   description:
                     "Information regarding secret creation. Exposed keys:
-                    `REDIS_HOST`, `REDIS_PORT`, `REDIS_USER`, `REDIS_PASSWORD`"
+                    `REDIS_HOST`, `REDIS_PORT`, `REDIS_USER`, `REDIS_PASSWORD`, `REDIS_CA_CERT`"
                   properties:
                     annotations:
                       additionalProperties:
@@ -74,7 +74,7 @@ spec:
                     name:
                       description:
                         Name of the secret resource to be created. By default,
-                        is equal to the resource name
+                        it is equal to the resource name
                       type: string
                     prefix:
                       description:
@@ -325,6 +325,7 @@ spec:
                         Name of another project to fork a service from. This
                         has effect only when a new service is being created.
                       maxLength: 63
+                      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
                       type: string
                       x-kubernetes-validations:
                         - message: Value is immutable
@@ -396,7 +397,7 @@ spec:
                     redis_notify_keyspace_events:
                       description: Set notify-keyspace-events option
                       maxLength: 32
-                      pattern: ^[KEg\$lshzxeA]*$
+                      pattern: ^[KEg\$lshzxentdmA]*$
                       type: string
                     redis_number_of_databases:
                       description:
@@ -449,6 +450,7 @@ spec:
                         Name of another service to fork from. This has effect
                         only when a new service is being created.
                       maxLength: 64
+                      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
                       type: string
                       x-kubernetes-validations:
                         - message: Value is immutable

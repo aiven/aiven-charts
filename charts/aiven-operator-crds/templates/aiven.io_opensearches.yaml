@@ -57,7 +57,8 @@ spec:
                 connInfoSecretTarget:
                   description:
                     "Information regarding secret creation. Exposed keys:
-                    `OPENSEARCH_HOST`, `OPENSEARCH_PORT`, `OPENSEARCH_USER`, `OPENSEARCH_PASSWORD`"
+                    `OPENSEARCH_HOST`, `OPENSEARCH_PORT`, `OPENSEARCH_USER`, `OPENSEARCH_PASSWORD`,
+                    `OPENSEARCH_CA_CERT`"
                   properties:
                     annotations:
                       additionalProperties:
@@ -74,7 +75,7 @@ spec:
                     name:
                       description:
                         Name of the secret resource to be created. By default,
-                        is equal to the resource name
+                        it is equal to the resource name
                       type: string
                     prefix:
                       description:
@@ -328,6 +329,7 @@ spec:
                             in your IdP. Required.
                           maxLength: 1024
                           minLength: 1
+                          pattern: ^[^\r\n]*$
                           type: string
                         client_secret:
                           description:
@@ -335,6 +337,7 @@ spec:
                             configured in your IdP. Required.
                           maxLength: 1024
                           minLength: 1
+                          pattern: ^[^\r\n]*$
                           type: string
                         connect_url:
                           description:
@@ -354,6 +357,7 @@ spec:
                             Default is Authorization.
                           maxLength: 1024
                           minLength: 1
+                          pattern: ^[^\r\n]*$
                           type: string
                         jwt_header:
                           description:
@@ -362,6 +366,7 @@ spec:
                             Bearer <token>. Optional. Default is Authorization."
                           maxLength: 1024
                           minLength: 1
+                          pattern: ^[^\r\n]*$
                           type: string
                         jwt_url_parameter:
                           description:
@@ -370,6 +375,7 @@ spec:
                             here. Optional.
                           maxLength: 1024
                           minLength: 1
+                          pattern: ^[^\r\n]*$
                           type: string
                         refresh_rate_limit_count:
                           description:
@@ -392,6 +398,7 @@ spec:
                             JWT
                           maxLength: 1024
                           minLength: 1
+                          pattern: ^[^\r\n]*$
                           type: string
                         scope:
                           description:
@@ -399,6 +406,7 @@ spec:
                             IdP. Optional. Default is openid profile email address phone.
                           maxLength: 1024
                           minLength: 1
+                          pattern: ^[^\r\n]*$
                           type: string
                         subject_key:
                           description:
@@ -407,6 +415,7 @@ spec:
                             Most IdP providers use the preferred_username claim. Optional.
                           maxLength: 1024
                           minLength: 1
+                          pattern: ^[^\r\n]*$
                           type: string
                       required:
                         - client_id
@@ -687,6 +696,11 @@ spec:
                             its version as 7.10 so clients continue to work. Default
                             is false
                           type: boolean
+                        plugins_alerting_filter_by_backend_roles:
+                          description:
+                            Enable or disable filtering of alerting by backend
+                            roles. Requires Security plugin. Defaults to false
+                          type: boolean
                         reindex_remote_whitelist:
                           description:
                             Whitelisted addresses for reindexing. Changing
@@ -874,6 +888,7 @@ spec:
                         Name of another project to fork a service from. This
                         has effect only when a new service is being created.
                       maxLength: 63
+                      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
                       type: string
                       x-kubernetes-validations:
                         - message: Value is immutable
@@ -923,6 +938,7 @@ spec:
                             value is typically provided by the IdP.
                           maxLength: 1024
                           minLength: 1
+                          pattern: ^[^\r\n]*$
                           type: string
                         idp_metadata_url:
                           description:
@@ -950,6 +966,7 @@ spec:
                             Providers (IdPs) to determine user access levels or permissions.
                           maxLength: 256
                           minLength: 1
+                          pattern: ^[^\r\n]*$
                           type: string
                         sp_entity_id:
                           description:
@@ -958,6 +975,7 @@ spec:
                             is typically provided by the SP.
                           maxLength: 1024
                           minLength: 1
+                          pattern: ^[^\r\n]*$
                           type: string
                         subject_key:
                           description:
@@ -966,6 +984,7 @@ spec:
                             configured, the NameID attribute is used by default.
                           maxLength: 256
                           minLength: 1
+                          pattern: ^[^\r\n]*$
                           type: string
                       required:
                         - enabled
@@ -983,6 +1002,7 @@ spec:
                         Name of another service to fork from. This has effect
                         only when a new service is being created.
                       maxLength: 64
+                      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
                       type: string
                       x-kubernetes-validations:
                         - message: Value is immutable
