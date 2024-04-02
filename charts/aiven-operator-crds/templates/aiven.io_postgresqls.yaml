@@ -71,7 +71,8 @@ spec:
                   description:
                     "Information regarding secret creation. Exposed keys:
                     `POSTGRESQL_HOST`, `POSTGRESQL_PORT`, `POSTGRESQL_DATABASE`, `POSTGRESQL_USER`,
-                    `POSTGRESQL_PASSWORD`, `POSTGRESQL_SSLMODE`, `POSTGRESQL_DATABASE_URI`"
+                    `POSTGRESQL_PASSWORD`, `POSTGRESQL_SSLMODE`, `POSTGRESQL_DATABASE_URI`,
+                    `POSTGRESQL_CA_CERT`"
                   properties:
                     annotations:
                       additionalProperties:
@@ -88,7 +89,7 @@ spec:
                     name:
                       description:
                         Name of the secret resource to be created. By default,
-                        is equal to the resource name
+                        it is equal to the resource name
                       type: string
                     prefix:
                       description:
@@ -360,7 +361,7 @@ spec:
                         autovacuum_analyze_threshold:
                           description:
                             Specifies the minimum number of inserted, updated
-                            or deleted tuples needed to trigger an  ANALYZE in any one
+                            or deleted tuples needed to trigger an ANALYZE in any one
                             table. The default is 50 tuples.
                           maximum: 2147483647
                           minimum: 0
@@ -663,6 +664,7 @@ spec:
                         timezone:
                           description: PostgreSQL service timezone
                           maxLength: 64
+                          pattern: ^[\w/]*$
                           type: string
                         track_activity_query_size:
                           description:
@@ -751,6 +753,7 @@ spec:
                         use service_to_fork_from). This has effect only when a new service
                         is being created.
                       maxLength: 64
+                      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
                       type: string
                       x-kubernetes-validations:
                         - message: Value is immutable
@@ -771,6 +774,104 @@ spec:
                         - "15"
                         - "16"
                       type: string
+                    pgaudit:
+                      description: System-wide settings for the pgaudit extension
+                      properties:
+                        feature_enabled:
+                          description:
+                            Enable pgaudit extension. When enabled, pgaudit
+                            extension will be automatically installed.Otherwise, extension
+                            will be uninstalled but auditing configurations will be
+                            preserved.
+                          type: boolean
+                        log:
+                          description:
+                            Specifies which classes of statements will be
+                            logged by session audit logging.
+                          items:
+                            type: string
+                          type: array
+                        log_catalog:
+                          description:
+                            Specifies that session logging should be enabled
+                            in the casewhere all relations in a statement are in pg_catalog.
+                          type: boolean
+                        log_client:
+                          description:
+                            Specifies whether log messages will be visible
+                            to a client process such as psql.
+                          type: boolean
+                        log_level:
+                          description:
+                            Specifies the log level that will be used for
+                            log entries.
+                          enum:
+                            - debug1
+                            - debug2
+                            - debug3
+                            - debug4
+                            - debug5
+                            - info
+                            - notice
+                            - warning
+                            - log
+                          type: string
+                        log_max_string_length:
+                          description:
+                            Crop parameters representation and whole statements
+                            if they exceed this threshold. A (default) value of -1 disable
+                            the truncation.
+                          maximum: 102400
+                          minimum: -1
+                          type: integer
+                        log_nested_statements:
+                          description:
+                            This GUC allows to turn off logging nested statements,
+                            that is, statements that are executed as part of another
+                            ExecutorRun.
+                          type: boolean
+                        log_parameter:
+                          description:
+                            Specifies that audit logging should include the
+                            parameters that were passed with the statement.
+                          type: boolean
+                        log_parameter_max_size:
+                          description:
+                            Specifies that parameter values longer than this
+                            setting (in bytes) should not be logged, but replaced with
+                            <long param suppressed>.
+                          type: integer
+                        log_relation:
+                          description:
+                            Specifies whether session audit logging should
+                            create a separate log entry for each relation (TABLE, VIEW,
+                            etc.) referenced in a SELECT or DML statement.
+                          type: boolean
+                        log_rows:
+                          description:
+                            Specifies that audit logging should include the
+                            rows retrieved or affected by a statement. When enabled
+                            the rows field will be included after the parameter field.
+                          type: boolean
+                        log_statement:
+                          description:
+                            Specifies whether logging will include the statement
+                            text and parameters (if enabled).
+                          type: boolean
+                        log_statement_once:
+                          description:
+                            Specifies whether logging will include the statement
+                            text and parameters with the first log entry for a statement/substatement
+                            combination or with every entry.
+                          type: boolean
+                        role:
+                          description:
+                            Specifies the master role to use for object audit
+                            logging.
+                          maxLength: 64
+                          pattern: ^[_A-Za-z0-9][-._A-Za-z0-9]{0,63}$
+                          type: string
+                      type: object
                     pgbouncer:
                       description: PGBouncer connection pooling settings
                       properties:
@@ -896,6 +997,7 @@ spec:
                         Name of another project to fork a service from. This
                         has effect only when a new service is being created.
                       maxLength: 63
+                      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
                       type: string
                       x-kubernetes-validations:
                         - message: Value is immutable
@@ -943,6 +1045,7 @@ spec:
                         Name of another service to fork from. This has effect
                         only when a new service is being created.
                       maxLength: 64
+                      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
                       type: string
                       x-kubernetes-validations:
                         - message: Value is immutable

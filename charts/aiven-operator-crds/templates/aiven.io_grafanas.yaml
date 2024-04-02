@@ -71,7 +71,7 @@ spec:
                   description:
                     "Information regarding secret creation. Exposed keys:
                     `GRAFANA_HOST`, `GRAFANA_PORT`, `GRAFANA_USER`, `GRAFANA_PASSWORD`,
-                    `GRAFANA_URI`, `GRAFANA_HOSTS`"
+                    `GRAFANA_URI`, `GRAFANA_HOSTS`, `GRAFANA_CA_CERT`"
                   properties:
                     annotations:
                       additionalProperties:
@@ -88,7 +88,7 @@ spec:
                     name:
                       description:
                         Name of the secret resource to be created. By default,
-                        is equal to the resource name
+                        it is equal to the resource name
                       type: string
                     prefix:
                       description:
@@ -705,6 +705,7 @@ spec:
                         Name of another project to fork a service from. This
                         has effect only when a new service is being created.
                       maxLength: 63
+                      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
                       type: string
                       x-kubernetes-validations:
                         - message: Value is immutable
@@ -736,6 +737,7 @@ spec:
                         Name of another service to fork from. This has effect
                         only when a new service is being created.
                       maxLength: 64
+                      pattern: ^[a-z][-a-z0-9]{0,63}$|^$
                       type: string
                       x-kubernetes-validations:
                         - message: Value is immutable

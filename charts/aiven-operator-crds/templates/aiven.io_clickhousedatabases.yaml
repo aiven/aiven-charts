@@ -5,14 +5,14 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.9.2
   creationTimestamp: null
-  name: clickhouseusers.aiven.io
+  name: clickhousedatabases.aiven.io
 spec:
   group: aiven.io
   names:
-    kind: ClickhouseUser
-    listKind: ClickhouseUserList
-    plural: clickhouseusers
-    singular: clickhouseuser
+    kind: ClickhouseDatabase
+    listKind: ClickhouseDatabaseList
+    plural: clickhousedatabases
+    singular: clickhousedatabase
   scope: Namespaced
   versions:
     - additionalPrinterColumns:
@@ -22,13 +22,10 @@ spec:
         - jsonPath: .spec.project
           name: Project
           type: string
-        - jsonPath: .spec.connInfoSecretTarget.name
-          name: Connection Information Secret
-          type: string
       name: v1alpha1
       schema:
         openAPIV3Schema:
-          description: ClickhouseUser is the Schema for the clickhouseusers API
+          description: ClickhouseDatabase is the Schema for the databases API
           properties:
             apiVersion:
               description:
@@ -45,7 +42,7 @@ spec:
             metadata:
               type: object
             spec:
-              description: ClickhouseUserSpec defines the desired state of ClickhouseUser
+              description: ClickhouseDatabaseSpec defines the desired state of ClickhouseDatabase
               properties:
                 authSecretRef:
                   description: Authentication reference to Aiven token in a secret
@@ -60,49 +57,8 @@ spec:
                     - key
                     - name
                   type: object
-                connInfoSecretTarget:
-                  description:
-                    "Information regarding secret creation. Exposed keys:
-                    `CLICKHOUSEUSER_HOST`, `CLICKHOUSEUSER_PORT`, `CLICKHOUSEUSER_USER`,
-                    `CLICKHOUSEUSER_PASSWORD`"
-                  properties:
-                    annotations:
-                      additionalProperties:
-                        type: string
-                      description: Annotations added to the secret
-                      type: object
-                      x-kubernetes-preserve-unknown-fields: true
-                    labels:
-                      additionalProperties:
-                        type: string
-                      description: Labels added to the secret
-                      type: object
-                      x-kubernetes-preserve-unknown-fields: true
-                    name:
-                      description:
-                        Name of the secret resource to be created. By default,
-                        it is equal to the resource name
-                      type: string
-                    prefix:
-                      description:
-                        Prefix for the secret's keys. Added "as is" without
-                        any transformations. By default, is equal to the kind name in
-                        uppercase + underscore, e.g. `KAFKA_`, `REDIS_`, etc.
-                      type: string
-                  required:
-                    - name
-                  type: object
-                connInfoSecretTargetDisabled:
-                  description:
-                    When true, the secret containing connection information
-                    will not be created, defaults to false. This field cannot be changed
-                    after resource creation.
-                  type: boolean
-                  x-kubernetes-validations:
-                    - message: connInfoSecretTargetDisabled is immutable.
-                      rule: self == oldSelf
                 project:
-                  description: Project to link the user to
+                  description: Project to link the database to
                   format: ^[a-zA-Z0-9_-]*$
                   maxLength: 63
                   type: string
@@ -110,7 +66,7 @@ spec:
                     - message: Value is immutable
                       rule: self == oldSelf
                 serviceName:
-                  description: Service to link the user to
+                  description: Clickhouse service to link the database to
                   maxLength: 63
                   type: string
                   x-kubernetes-validations:
@@ -120,18 +76,13 @@ spec:
                 - project
                 - serviceName
               type: object
-              x-kubernetes-validations:
-                - message:
-                    connInfoSecretTargetDisabled can only be set during resource
-                    creation.
-                  rule: has(oldSelf.connInfoSecretTargetDisabled) == has(self.connInfoSecretTargetDisabled)
             status:
-              description: ClickhouseUserStatus defines the observed state of ClickhouseUser
+              description: ClickhouseDatabaseStatus defines the observed state of ClickhouseDatabase
               properties:
                 conditions:
                   description:
                     Conditions represent the latest available observations
-                    of an ClickhouseUser state
+                    of an ClickhouseDatabase state
                   items:
                     description:
                       "Condition contains details for one aspect of the current
@@ -205,12 +156,8 @@ spec:
                       - type
                     type: object
                   type: array
-                uuid:
-                  description: Clickhouse user UUID
-                  type: string
               required:
                 - conditions
-                - uuid
               type: object
           type: object
       served: true
