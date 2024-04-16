@@ -139,8 +139,8 @@ spec:
                   maxLength: 128
                   type: string
                 project:
-                  description: Target project.
-                  format: ^[a-zA-Z0-9_-]*$
+                  description: Identifies the project this resource belongs to
+                  format: ^[a-zA-Z0-9_-]+$
                   maxLength: 63
                   type: string
                   x-kubernetes-validations:
@@ -221,7 +221,7 @@ spec:
                   description: Cassandra specific user configuration options
                   properties:
                     additional_backup_regions:
-                      description: Deprecated. Additional Cloud Regions for Backup Replication
+                      description: Additional Cloud Regions for Backup Replication
                       items:
                         type: string
                       maxItems: 1
