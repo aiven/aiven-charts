@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.9.2
+    controller-gen.kubebuilder.io/version: v0.10.0
   creationTimestamp: null
   name: mysqls.aiven.io
 spec:
@@ -31,7 +31,10 @@ spec:
       name: v1alpha1
       schema:
         openAPIV3Schema:
-          description: MySQL is the Schema for the mysqls API
+          description:
+            'MySQL is the Schema for the mysqls API. Info "Exposes secret
+            keys": `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_DATABASE`, `MYSQL_USER`, `MYSQL_PASSWORD`,
+            `MYSQL_SSL_MODE`, `MYSQL_URI`, `MYSQL_REPLICA_URI`, `MYSQL_CA_CERT`'
           properties:
             apiVersion:
               description:
@@ -68,10 +71,7 @@ spec:
                   maxLength: 256
                   type: string
                 connInfoSecretTarget:
-                  description:
-                    "Information regarding secret creation. Exposed keys:
-                    `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_DATABASE`, `MYSQL_USER`, `MYSQL_PASSWORD`,
-                    `MYSQL_SSL_MODE`, `MYSQL_URI`, `MYSQL_REPLICA_URI`, `MYSQL_CA_CERT`"
+                  description: Secret configuration.
                   properties:
                     annotations:
                       additionalProperties:
@@ -90,6 +90,9 @@ spec:
                         Name of the secret resource to be created. By default,
                         it is equal to the resource name
                       type: string
+                      x-kubernetes-validations:
+                        - message: Value is immutable
+                          rule: self == oldSelf
                     prefix:
                       description:
                         Prefix for the secret's keys. Added "as is" without
@@ -112,8 +115,9 @@ spec:
                   description:
                     The disk space of the service, possible values depend
                     on the service type, the cloud provider and the project. Reducing
-                    will result in the service re-balancing.
-                  format: ^[1-9][0-9]*(GiB|G)*
+                    will result in the service re-balancing. The removal of this field
+                    does not change the value.
+                  pattern: (?i)^[1-9][0-9]*(GiB|G)?$
                   type: string
                 maintenanceWindowDow:
                   description:
@@ -140,8 +144,8 @@ spec:
                   type: string
                 project:
                   description: Identifies the project this resource belongs to
-                  format: ^[a-zA-Z0-9_-]+$
                   maxLength: 63
+                  pattern: ^[a-zA-Z0-9_-]+$
                   type: string
                   x-kubernetes-validations:
                     - message: Value is immutable
@@ -205,7 +209,7 @@ spec:
                     properties:
                       email:
                         description: Email address.
-                        format: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
+                        pattern: ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
                         type: string
                     required:
                       - email
