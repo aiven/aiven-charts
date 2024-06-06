@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.9.2
+    controller-gen.kubebuilder.io/version: v0.10.0
   creationTimestamp: null
   name: serviceusers.aiven.io
 spec:
@@ -28,7 +28,11 @@ spec:
       name: v1alpha1
       schema:
         openAPIV3Schema:
-          description: ServiceUser is the Schema for the serviceusers API
+          description:
+            'ServiceUser is the Schema for the serviceusers API. Info "Exposes
+            secret keys": `SERVICEUSER_HOST`, `SERVICEUSER_PORT`, `SERVICEUSER_USERNAME`,
+            `SERVICEUSER_PASSWORD`, `SERVICEUSER_CA_CERT`, `SERVICEUSER_ACCESS_CERT`,
+            `SERVICEUSER_ACCESS_KEY`'
           properties:
             apiVersion:
               description:
@@ -67,11 +71,7 @@ spec:
                     - mysql_native_password
                   type: string
                 connInfoSecretTarget:
-                  description:
-                    "Information regarding secret creation. Exposed keys:
-                    `SERVICEUSER_HOST`, `SERVICEUSER_PORT`, `SERVICEUSER_USERNAME`,
-                    `SERVICEUSER_PASSWORD`, `SERVICEUSER_CA_CERT`, `SERVICEUSER_ACCESS_CERT`,
-                    `SERVICEUSER_ACCESS_KEY`"
+                  description: Secret configuration.
                   properties:
                     annotations:
                       additionalProperties:
@@ -90,6 +90,9 @@ spec:
                         Name of the secret resource to be created. By default,
                         it is equal to the resource name
                       type: string
+                      x-kubernetes-validations:
+                        - message: Value is immutable
+                          rule: self == oldSelf
                     prefix:
                       description:
                         Prefix for the secret's keys. Added "as is" without
@@ -110,8 +113,8 @@ spec:
                       rule: self == oldSelf
                 project:
                   description: Identifies the project this resource belongs to
-                  format: ^[a-zA-Z0-9_-]+$
                   maxLength: 63
+                  pattern: ^[a-zA-Z0-9_-]+$
                   type: string
                   x-kubernetes-validations:
                     - message: Value is immutable
@@ -120,8 +123,8 @@ spec:
                   description:
                     Specifies the name of the service that this resource
                     belongs to
-                  format: ^[a-z][-a-z0-9]+$
                   maxLength: 63
+                  pattern: ^[a-z][-a-z0-9]+$
                   type: string
                   x-kubernetes-validations:
                     - message: Value is immutable

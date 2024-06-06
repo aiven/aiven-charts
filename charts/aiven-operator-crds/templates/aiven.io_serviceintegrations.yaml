@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.9.2
+    controller-gen.kubebuilder.io/version: v0.10.0
   creationTimestamp: null
   name: serviceintegrations.aiven.io
 spec:
@@ -238,6 +238,9 @@ spec:
                     datadog_dbm_enabled:
                       description: Enable Datadog Database Monitoring
                       type: boolean
+                    datadog_pgbouncer_enabled:
+                      description: Enable Datadog PgBouncer Metric Tracking
+                      type: boolean
                     datadog_tags:
                       description: Custom tags provided by user
                       items:
@@ -408,6 +411,7 @@ spec:
                     - external_opensearch_logs
                     - flink
                     - flink_external_kafka
+                    - flink_external_postgresql
                     - internal_connectivity
                     - jolokia
                     - kafka_connect
@@ -682,8 +686,8 @@ spec:
                   type: object
                 project:
                   description: Identifies the project this resource belongs to
-                  format: ^[a-zA-Z0-9_-]+$
                   maxLength: 63
+                  pattern: ^[a-zA-Z0-9_-]+$
                   type: string
                   x-kubernetes-validations:
                     - message: Value is immutable

@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.9.2
+    controller-gen.kubebuilder.io/version: v0.10.0
   creationTimestamp: null
   name: connectionpools.aiven.io
 spec:
@@ -37,7 +37,11 @@ spec:
       name: v1alpha1
       schema:
         openAPIV3Schema:
-          description: ConnectionPool is the Schema for the connectionpools API
+          description:
+            'ConnectionPool is the Schema for the connectionpools API. Info
+            "Exposes secret keys": `CONNECTIONPOOL_NAME`, `CONNECTIONPOOL_HOST`, `CONNECTIONPOOL_PORT`,
+            `CONNECTIONPOOL_DATABASE`, `CONNECTIONPOOL_USER`, `CONNECTIONPOOL_PASSWORD`,
+            `CONNECTIONPOOL_SSLMODE`, `CONNECTIONPOOL_DATABASE_URI`, `CONNECTIONPOOL_CA_CERT`'
           properties:
             apiVersion:
               description:
@@ -70,11 +74,7 @@ spec:
                     - name
                   type: object
                 connInfoSecretTarget:
-                  description:
-                    "Information regarding secret creation. Exposed keys:
-                    `CONNECTIONPOOL_NAME`, `CONNECTIONPOOL_HOST`, `CONNECTIONPOOL_PORT`,
-                    `CONNECTIONPOOL_DATABASE`, `CONNECTIONPOOL_USER`, `CONNECTIONPOOL_PASSWORD`,
-                    `CONNECTIONPOOL_SSLMODE`, `CONNECTIONPOOL_DATABASE_URI`, `CONNECTIONPOOL_CA_CERT`"
+                  description: Secret configuration.
                   properties:
                     annotations:
                       additionalProperties:
@@ -93,6 +93,9 @@ spec:
                         Name of the secret resource to be created. By default,
                         it is equal to the resource name
                       type: string
+                      x-kubernetes-validations:
+                        - message: Value is immutable
+                          rule: self == oldSelf
                     prefix:
                       description:
                         Prefix for the secret's keys. Added "as is" without
@@ -129,8 +132,8 @@ spec:
                   type: integer
                 project:
                   description: Identifies the project this resource belongs to
-                  format: ^[a-zA-Z0-9_-]+$
                   maxLength: 63
+                  pattern: ^[a-zA-Z0-9_-]+$
                   type: string
                   x-kubernetes-validations:
                     - message: Value is immutable
@@ -139,8 +142,8 @@ spec:
                   description:
                     Specifies the name of the service that this resource
                     belongs to
-                  format: ^[a-z][-a-z0-9]+$
                   maxLength: 63
+                  pattern: ^[a-z][-a-z0-9]+$
                   type: string
                   x-kubernetes-validations:
                     - message: Value is immutable
