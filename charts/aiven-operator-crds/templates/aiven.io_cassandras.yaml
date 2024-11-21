@@ -225,7 +225,7 @@ spec:
                   description: Cassandra specific user configuration options
                   properties:
                     additional_backup_regions:
-                      description: Deprecated. Additional Cloud Regions for Backup Replication
+                      description: Additional Cloud Regions for Backup Replication
                       items:
                         type: string
                       maxItems: 1
@@ -290,7 +290,6 @@ spec:
                     cassandra_version:
                       description: Cassandra version
                       enum:
-                        - "4"
                         - "4.1"
                       pattern: ^[0-9]+(\.[0-9]+)?$
                       type: string
