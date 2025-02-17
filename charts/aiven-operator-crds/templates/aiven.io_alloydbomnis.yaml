@@ -4,14 +4,14 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.15.0
-  name: postgresqls.aiven.io
+  name: alloydbomnis.aiven.io
 spec:
   group: aiven.io
   names:
-    kind: PostgreSQL
-    listKind: PostgreSQLList
-    plural: postgresqls
-    singular: postgresql
+    kind: AlloyDBOmni
+    listKind: AlloyDBOmniList
+    plural: alloydbomnis
+    singular: alloydbomni
   scope: Namespaced
   versions:
     - additionalPrinterColumns:
@@ -31,8 +31,8 @@ spec:
       schema:
         openAPIV3Schema:
           description: |-
-            PostgreSQL is the Schema for the postgresql API.
-            Info "Exposes secret keys": `POSTGRESQL_HOST`, `POSTGRESQL_PORT`, `POSTGRESQL_DATABASE`, `POSTGRESQL_USER`, `POSTGRESQL_PASSWORD`, `POSTGRESQL_SSLMODE`, `POSTGRESQL_DATABASE_URI`, `POSTGRESQL_CA_CERT`
+            AlloyDBOmni is the Schema for the alloydbomni API.
+            Info "Exposes secret keys": `ALLOYDBOMNI_HOST`, `ALLOYDBOMNI_PORT`, `ALLOYDBOMNI_DATABASE`, `ALLOYDBOMNI_USER`, `ALLOYDBOMNI_PASSWORD`, `ALLOYDBOMNI_SSLMODE`, `ALLOYDBOMNI_DATABASE_URI`
           properties:
             apiVersion:
               description: |-
@@ -52,7 +52,9 @@ spec:
             metadata:
               type: object
             spec:
-              description: PostgreSQLSpec defines the desired state of postgres instance
+              description:
+                AlloyDBOmniSpec defines the desired state of AlloyDB Omni
+                instance
               properties:
                 authSecretRef:
                   description: Authentication reference to Aiven token in a secret
@@ -168,6 +170,11 @@ spec:
                   description: Identifier of the VPC the service should be in, if any.
                   maxLength: 36
                   type: string
+                serviceAccountCredentials:
+                  description:
+                    Your [Google service account key](https://cloud.google.com/iam/docs/service-account-creds#key-types)
+                    in JSON format.
+                  type: string
                 serviceIntegrations:
                   description:
                     Service integrations to specify when creating a service.
@@ -222,7 +229,7 @@ spec:
                     to have this enabled for all services.
                   type: boolean
                 userConfig:
-                  description: PostgreSQL specific user configuration options
+                  description: AlloyDBOmni specific user configuration options
                   properties:
                     additional_backup_regions:
                       description: Additional Cloud Regions for Backup Replication
@@ -251,6 +258,11 @@ spec:
                       x-kubernetes-validations:
                         - message: Value is immutable
                           rule: self == oldSelf
+                    alloydbomni_version:
+                      description: PostgreSQL major version
+                      enum:
+                        - "15"
+                      type: string
                     backup_hour:
                       description:
                         The hour of day (in UTC) when backup for the service
@@ -272,6 +284,16 @@ spec:
                         Register AAAA DNS records for the service, and allow
                         IPv6 packets to service ports
                       type: boolean
+                    google_columnar_engine_enabled:
+                      description:
+                        Enables or disables the columnar engine. When enabled,
+                        it accelerates SQL query processing.
+                      type: boolean
+                    google_columnar_engine_memory_size_percentage:
+                      description: Allocate the amount of RAM to store columnar data.
+                      maximum: 50
+                      minimum: 0
+                      type: integer
                     ip_filter:
                       description:
                         Allow incoming connections from CIDR address block,
@@ -294,69 +316,6 @@ spec:
                         type: object
                       maxItems: 2048
                       type: array
-                    migration:
-                      description: Migrate data from existing server
-                      properties:
-                        dbname:
-                          description: Database name for bootstrapping the initial connection
-                          maxLength: 63
-                          type: string
-                        host:
-                          description:
-                            Hostname or IP address of the server where to
-                            migrate data from
-                          maxLength: 255
-                          type: string
-                        ignore_dbs:
-                          description:
-                            Comma-separated list of databases, which should
-                            be ignored during migration (supported by MySQL and PostgreSQL
-                            only at the moment)
-                          maxLength: 2048
-                          type: string
-                        ignore_roles:
-                          description:
-                            Comma-separated list of database roles, which
-                            should be ignored during migration (supported by PostgreSQL
-                            only at the moment)
-                          maxLength: 2048
-                          type: string
-                        method:
-                          description:
-                            The migration method to be used (currently supported
-                            only by Redis, Dragonfly, MySQL and PostgreSQL service types)
-                          enum:
-                            - dump
-                            - replication
-                          type: string
-                        password:
-                          description:
-                            Password for authentication with the server where
-                            to migrate data from
-                          maxLength: 256
-                          type: string
-                        port:
-                          description:
-                            Port number of the server where to migrate data
-                            from
-                          maximum: 65535
-                          minimum: 1
-                          type: integer
-                        ssl:
-                          description:
-                            The server where to migrate data from is secured
-                            with SSL
-                          type: boolean
-                        username:
-                          description:
-                            User name for authentication with the server
-                            where to migrate data from
-                          maxLength: 256
-                          type: string
-                      required:
-                        - host
-                        - port
-                      type: object
                     pg:
                       description: postgresql.conf configuration values
                       properties:
@@ -649,14 +608,6 @@ spec:
                           maxLength: 64
                           pattern: ^[_A-Za-z0-9][-._A-Za-z0-9]{0,63}$
                           type: string
-                        pg_stat_monitor.pgsm_enable_query_plan:
-                          description: Enables or disables query plan monitoring
-                          type: boolean
-                        pg_stat_monitor.pgsm_max_buckets:
-                          description: Sets the maximum number of buckets
-                          maximum: 10
-                          minimum: 1
-                          type: integer
                         pg_stat_statements.track:
                           description:
                             Controls which statements are counted. Specify
@@ -728,35 +679,6 @@ spec:
                           minimum: 10
                           type: integer
                       type: object
-                    pg_qualstats:
-                      description:
-                        Deprecated. System-wide settings for the pg_qualstats
-                        extension
-                      properties:
-                        enabled:
-                          description: Deprecated. Enable / Disable pg_qualstats
-                          type: boolean
-                        min_err_estimate_num:
-                          description:
-                            Deprecated. Error estimation num threshold to
-                            save quals
-                          minimum: 0
-                          type: integer
-                        min_err_estimate_ratio:
-                          description:
-                            Deprecated. Error estimation ratio threshold
-                            to save quals
-                          minimum: 0
-                          type: integer
-                        track_constants:
-                          description:
-                            Deprecated. Enable / Disable pg_qualstats constants
-                            tracking
-                          type: boolean
-                        track_pg_catalog:
-                          description: Deprecated. Track quals on system catalogs too.
-                          type: boolean
-                      type: object
                     pg_read_replica:
                       description:
                         Should the service which is being forked be a read
@@ -773,117 +695,11 @@ spec:
                       x-kubernetes-validations:
                         - message: Value is immutable
                           rule: self == oldSelf
-                    pg_stat_monitor_enable:
-                      description:
-                        Enable the pg_stat_monitor extension. Enabling this
-                        extension will cause the cluster to be restarted.When this extension
-                        is enabled, pg_stat_statements results for utility commands
-                        are unreliable
-                      type: boolean
                     pg_version:
-                      description: "PostgreSQL major version. Deprecated values: `12`"
+                      description: PostgreSQL major version
                       enum:
-                        - "12"
-                        - "13"
-                        - "14"
                         - "15"
-                        - "16"
-                        - "17"
                       type: string
-                    pgaudit:
-                      description:
-                        Deprecated. System-wide settings for the pgaudit
-                        extension
-                      properties:
-                        feature_enabled:
-                          description:
-                            Deprecated. Enable pgaudit extension. When enabled,
-                            pgaudit extension will be automatically installed.Otherwise,
-                            extension will be uninstalled but auditing configurations
-                            will be preserved.
-                          type: boolean
-                        log:
-                          description:
-                            Deprecated. Specifies which classes of statements
-                            will be logged by session audit logging.
-                          items:
-                            type: string
-                          type: array
-                        log_catalog:
-                          description:
-                            Deprecated. Specifies that session logging should
-                            be enabled in the casewhere all relations in a statement
-                            are in pg_catalog.
-                          type: boolean
-                        log_client:
-                          description:
-                            Deprecated. Specifies whether log messages will
-                            be visible to a client process such as psql.
-                          type: boolean
-                        log_level:
-                          description:
-                            Deprecated. Specifies the log level that will
-                            be used for log entries.
-                          enum:
-                            - warning
-                          type: string
-                        log_max_string_length:
-                          description:
-                            Deprecated. Crop parameters representation and
-                            whole statements if they exceed this threshold. A (default)
-                            value of -1 disable the truncation.
-                          maximum: 102400
-                          minimum: -1
-                          type: integer
-                        log_nested_statements:
-                          description:
-                            Deprecated. This GUC allows to turn off logging
-                            nested statements, that is, statements that are executed
-                            as part of another ExecutorRun.
-                          type: boolean
-                        log_parameter:
-                          description:
-                            Deprecated. Specifies that audit logging should
-                            include the parameters that were passed with the statement.
-                          type: boolean
-                        log_parameter_max_size:
-                          description:
-                            Deprecated. Specifies that parameter values longer
-                            than this setting (in bytes) should not be logged, but replaced
-                            with <long param suppressed>.
-                          type: integer
-                        log_relation:
-                          description:
-                            Deprecated. Specifies whether session audit logging
-                            should create a separate log entry for each relation (TABLE,
-                            VIEW, etc.) referenced in a SELECT or DML statement.
-                          type: boolean
-                        log_rows:
-                          description:
-                            Deprecated. Specifies that audit logging should
-                            include the rows retrieved or affected by a statement. When
-                            enabled the rows field will be included after the parameter
-                            field.
-                          type: boolean
-                        log_statement:
-                          description:
-                            Deprecated. Specifies whether logging will include
-                            the statement text and parameters (if enabled).
-                          type: boolean
-                        log_statement_once:
-                          description:
-                            Deprecated. Specifies whether logging will include
-                            the statement text and parameters with the first log entry
-                            for a statement/substatement combination or with every entry.
-                          type: boolean
-                        role:
-                          description:
-                            Deprecated. Specifies the master role to use
-                            for object audit logging.
-                          maxLength: 64
-                          pattern: ^[_A-Za-z0-9][-._A-Za-z0-9]{0,63}$
-                          type: string
-                      type: object
                     pgbouncer:
                       description: PGBouncer connection pooling settings
                       properties:
@@ -1093,20 +909,6 @@ spec:
                         - "off"
                         - quorum
                       type: string
-                    timescaledb:
-                      description: System-wide settings for the timescaledb extension
-                      properties:
-                        max_background_workers:
-                          description:
-                            The number of background workers for timescaledb
-                            operations. You should configure this setting to the sum
-                            of your number of databases and the total number of concurrent
-                            background workers you want running at any given point in
-                            time.
-                          maximum: 4096
-                          minimum: 1
-                          type: integer
-                      type: object
                     variant:
                       description:
                         Variant of the PostgreSQL service, may affect the

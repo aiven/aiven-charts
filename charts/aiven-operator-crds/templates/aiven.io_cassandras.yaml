@@ -27,6 +27,11 @@ spec:
         - jsonPath: .status.state
           name: State
           type: string
+      deprecated: true
+      deprecationWarning:
+        EOL date **December 31, 2025**, see [end-of-life](https://aiven.io/docs/platform/reference/end-of-life).
+        To ensure uninterrupted service, complete your migration out of Aiven for Apache
+        Cassandra before December 31, 2025.
       name: v1alpha1
       schema:
         openAPIV3Schema:
@@ -288,8 +293,9 @@ spec:
                           type: integer
                       type: object
                     cassandra_version:
-                      description: Cassandra version
+                      description: "Cassandra version. Deprecated values: `4`"
                       enum:
+                        - "4"
                         - "4.1"
                       pattern: ^[0-9]+(\.[0-9]+)?$
                       type: string
@@ -313,7 +319,7 @@ spec:
                         required:
                           - network
                         type: object
-                      maxItems: 1024
+                      maxItems: 2048
                       type: array
                     migrate_sstableloader:
                       description:
