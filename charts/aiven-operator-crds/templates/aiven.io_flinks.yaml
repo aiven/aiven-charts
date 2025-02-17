@@ -233,9 +233,13 @@ spec:
                     custom_code:
                       description: Enable to upload Custom JARs for Flink applications
                       type: boolean
+                      x-kubernetes-validations:
+                        - message: Value is immutable
+                          rule: self == oldSelf
                     flink_version:
-                      description: Flink major version
+                      description: "Flink major version. Deprecated values: `1.16`"
                       enum:
+                        - "1.16"
                         - "1.19"
                         - "1.20"
                       type: string
@@ -262,7 +266,7 @@ spec:
                         required:
                           - network
                         type: object
-                      maxItems: 1024
+                      maxItems: 2048
                       type: array
                     number_of_task_slots:
                       description:
