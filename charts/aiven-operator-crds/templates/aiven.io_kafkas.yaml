@@ -804,6 +804,26 @@ spec:
                           minimum: 1
                           type: integer
                       type: object
+                    kafka_connect_plugin_versions:
+                      description: The plugin selected by the user
+                      items:
+                        description: A Kafka Connect plugin
+                        properties:
+                          plugin_name:
+                            description: The name of the plugin
+                            maxLength: 128
+                            pattern: ^[^\r\n]*$
+                            type: string
+                          version:
+                            description: The version of the plugin
+                            maxLength: 128
+                            pattern: ^[^\r\n]*$
+                            type: string
+                        required:
+                          - plugin_name
+                          - version
+                        type: object
+                      type: array
                     kafka_connect_secret_providers:
                       description:
                         "Configure external secret providers in order to
@@ -905,6 +925,17 @@ spec:
                             If true the consumer's offset will be periodically
                             committed to Kafka in the background
                           type: boolean
+                        consumer_idle_disconnect_timeout:
+                          description:
+                            Specifies the maximum duration (in seconds) a
+                            client can remain idle before it is deleted. If a consumer
+                            is inactive, it will exit the consumer group, and its state
+                            will be discarded. A value of 0 (default) indicates that
+                            the consumer will not be disconnected automatically due
+                            to inactivity.
+                          maximum: 2147483647
+                          minimum: 0
+                          type: integer
                         consumer_request_max_bytes:
                           description:
                             Maximum number of bytes in unencoded message
@@ -1005,6 +1036,7 @@ spec:
                       enum:
                         - "3.7"
                         - "3.8"
+                        - "3.9"
                       type: string
                     letsencrypt_sasl_privatelink:
                       description: Use Letsencrypt CA for Kafka SASL via Privatelink
