@@ -4,14 +4,14 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.15.0
-  name: kafkaconnectors.aiven.io
+  name: kafkanativeacls.aiven.io
 spec:
   group: aiven.io
   names:
-    kind: KafkaConnector
-    listKind: KafkaConnectorList
-    plural: kafkaconnectors
-    singular: kafkaconnector
+    kind: KafkaNativeACL
+    listKind: KafkaNativeACLList
+    plural: kafkanativeacls
+    singular: kafkanativeacl
   scope: Namespaced
   versions:
     - additionalPrinterColumns:
@@ -21,22 +21,27 @@ spec:
         - jsonPath: .spec.project
           name: Project
           type: string
-        - jsonPath: .spec.connectorClass
-          name: Connector Class
+        - jsonPath: .spec.host
+          name: Host
           type: string
-        - jsonPath: .status.state
-          name: State
+        - jsonPath: .spec.operation
+          name: Operation
           type: string
-        - jsonPath: .status.tasksStatus.total
-          name: Tasks Total
-          type: integer
-        - jsonPath: .status.tasksStatus.running
-          name: Tasks Running
-          type: integer
+        - jsonPath: .spec.patternType
+          name: PatternType
+          type: string
+        - jsonPath: .spec.permissionType
+          name: PermissionType
+          type: string
       name: v1alpha1
       schema:
         openAPIV3Schema:
-          description: KafkaConnector is the Schema for the kafkaconnectors API
+          description: |-
+            KafkaNativeACL
+            Creates and manages Kafka-native access control lists (ACLs) for an Aiven for Apache Kafka® service.
+            ACLs control access to Kafka topics, consumer groups, clusters, and Schema Registry.
+            Kafka-native ACLs provide advanced resource-level access control with fine-grained permissions, including ALLOW and DENY rules.
+            For simplified topic-level control, you can use [KafkaACL](./kafkaacl.md).
           properties:
             apiVersion:
               description: |-
@@ -56,7 +61,7 @@ spec:
             metadata:
               type: object
             spec:
-              description: KafkaConnectorSpec defines the desired state of KafkaConnector
+              description: KafkaNativeACLSpec defines the desired state of KafkaNativeACL
               properties:
                 authSecretRef:
                   description: Authentication reference to Aiven token in a secret
@@ -71,9 +76,45 @@ spec:
                     - key
                     - name
                   type: object
-                connectorClass:
-                  description: The Java class of the connector.
-                  maxLength: 1024
+                host:
+                  default: "*"
+                  description: The host or `*` for all hosts
+                  maxLength: 256
+                  type: string
+                operation:
+                  description:
+                    Kafka ACL operation represents an operation which an
+                    ACL grants or denies permission to perform
+                  enum:
+                    - All
+                    - Alter
+                    - AlterConfigs
+                    - ClusterAction
+                    - Create
+                    - CreateTokens
+                    - Delete
+                    - Describe
+                    - DescribeConfigs
+                    - DescribeTokens
+                    - IdempotentWrite
+                    - Read
+                    - Write
+                  type: string
+                patternType:
+                  description: Kafka ACL pattern type of resource name
+                  enum:
+                    - LITERAL
+                    - PREFIXED
+                  type: string
+                permissionType:
+                  description: Kafka ACL permission type
+                  enum:
+                    - ALLOW
+                    - DENY
+                  type: string
+                principal:
+                  description: Principal is in 'PrincipalType:name' format
+                  maxLength: 256
                   type: string
                 project:
                   description: Identifies the project this resource belongs to
@@ -83,6 +124,22 @@ spec:
                   x-kubernetes-validations:
                     - message: Value is immutable
                       rule: self == oldSelf
+                resourceName:
+                  description: Resource pattern used to match specified resources
+                  maxLength: 256
+                  type: string
+                resourceType:
+                  description:
+                    Kafka ACL resource type represents a type of resource
+                    which an ACL can be applied to
+                  enum:
+                    - Cluster
+                    - DelegationToken
+                    - Group
+                    - Topic
+                    - TransactionalId
+                    - User
+                  type: string
                 serviceName:
                   description:
                     Specifies the name of the service that this resource
@@ -93,29 +150,26 @@ spec:
                   x-kubernetes-validations:
                     - message: Value is immutable
                       rule: self == oldSelf
-                userConfig:
-                  additionalProperties:
-                    type: string
-                  description: |-
-                    The connector-specific configuration
-                    To build config values from secret the template function {{`{{ fromSecret "name" "key" }}`}}
-                    is provided when interpreting the keys.
-                    Where "name" is the name of the secret and "key" is the key in the secret
-                    in the same namespace as the KafkaConnector.
-                  type: object
               required:
-                - connectorClass
+                - operation
+                - patternType
+                - permissionType
+                - principal
                 - project
+                - resourceName
+                - resourceType
                 - serviceName
-                - userConfig
               type: object
+              x-kubernetes-validations:
+                - message: Value is immutable
+                  rule: self == oldSelf
             status:
-              description: KafkaConnectorStatus defines the observed state of KafkaConnector
+              description: KafkaNativeACLStatus defines the observed state of KafkaNativeACL
               properties:
                 conditions:
                   description:
                     Conditions represent the latest available observations
-                    of an kafka connector state
+                    of an KafkaNativeACL state
                   items:
                     description:
                       "Condition contains details for one aspect of the current
@@ -185,59 +239,12 @@ spec:
                       - type
                     type: object
                   type: array
-                pluginStatus:
-                  description:
-                    PluginStatus contains metadata about the configured connector
-                    plugin
-                  properties:
-                    author:
-                      type: string
-                    class:
-                      type: string
-                    docUrl:
-                      type: string
-                    title:
-                      type: string
-                    type:
-                      type: string
-                    version:
-                      type: string
-                  required:
-                    - author
-                    - class
-                    - docUrl
-                    - title
-                    - type
-                    - version
-                  type: object
-                state:
-                  description: Connector state
+                id:
+                  description: Kafka-native ACL ID
                   type: string
-                tasksStatus:
-                  description: TasksStatus contains metadata about the running tasks
-                  properties:
-                    failed:
-                      type: integer
-                    paused:
-                      type: integer
-                    running:
-                      type: integer
-                    stackTrace:
-                      type: string
-                    total:
-                      type: integer
-                    unassigned:
-                      type: integer
-                    unknown:
-                      type: integer
-                  required:
-                    - total
-                  type: object
               required:
                 - conditions
-                - pluginStatus
-                - state
-                - tasksStatus
+                - id
               type: object
           type: object
       served: true
