@@ -2,6 +2,23 @@ apiVersion: v1
 entries:
   aiven-operator:
   - apiVersion: v2
+    appVersion: v0.32.0
+    created: "2025-09-18T08:07:11.566922908Z"
+    description: A Helm chart to deploy the aiven operator
+    digest: bf989b41b4e6afa51802f1b25a05bfd118d4ce4215b86e13f9d7bef7cb730cb2
+    maintainers:
+    - name: byashimov
+      url: https://www.aiven.io
+    - name: jeff-held-aiven
+      url: https://www.aiven.io
+    - name: rriski
+      url: https://www.aiven.io
+    name: aiven-operator
+    type: application
+    urls:
+    - https://github.com/aiven/aiven-charts/releases/download/aiven-operator-v0.32.0/aiven-operator-v0.32.0.tgz
+    version: v0.32.0
+  - apiVersion: v2
     appVersion: v0.31.0
     created: "2025-07-25T13:34:37.870530972Z"
     description: A Helm chart to deploy the aiven operator
@@ -655,6 +672,23 @@ entries:
     version: v0.1.0
   aiven-operator-crds:
   - apiVersion: v2
+    appVersion: v0.32.0
+    created: "2025-09-18T08:07:11.35610675Z"
+    description: A Helm chart to deploy the aiven operator custom resource definitions
+    digest: 95dd48011560363cba16128a4dbc0dd70a5248c01e5ce0e59fe8daa6657bb896
+    maintainers:
+    - name: byashimov
+      url: https://www.aiven.io
+    - name: jeff-held-aiven
+      url: https://www.aiven.io
+    - name: rriski
+      url: https://www.aiven.io
+    name: aiven-operator-crds
+    type: application
+    urls:
+    - https://github.com/aiven/aiven-charts/releases/download/aiven-operator-crds-v0.32.0/aiven-operator-crds-v0.32.0.tgz
+    version: v0.32.0
+  - apiVersion: v2
     appVersion: v0.31.0
     created: "2025-07-25T13:34:37.550993722Z"
     description: A Helm chart to deploy the aiven operator custom resource definitions
@@ -1263,4 +1297,4 @@ entries:
     urls:
     - https://github.com/aiven/aiven-charts/releases/download/aiven-operator-crds-v0.1.0/aiven-operator-crds-v0.1.0.tgz
     version: v0.1.0
-generated: "2025-07-25T13:34:37.871894573Z"
+generated: "2025-09-18T08:07:11.567475263Z"
