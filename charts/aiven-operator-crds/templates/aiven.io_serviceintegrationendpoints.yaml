@@ -81,7 +81,6 @@ spec:
                             description:
                               The maximum total disk size (in gb) to allow
                               autoscaler to scale up to
-                            maximum: 10000
                             minimum: 50
                             type: integer
                           type:
@@ -452,7 +451,7 @@ spec:
                       type: string
                     ssl_mode:
                       description:
-                        "SSL mode to use for the connection.  Please note
+                        "SSL mode to use for the connection. Please note
                         that Aiven requires TLS for all connections to external PostgreSQL
                         services. Deprecated values: `prefer`"
                       enum:
@@ -527,7 +526,7 @@ spec:
                   properties:
                     basic_auth_password:
                       description: Prometheus basic authentication password
-                      maxLength: 64
+                      maxLength: 256
                       minLength: 8
                       type: string
                     basic_auth_username:
