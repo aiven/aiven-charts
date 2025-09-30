@@ -26,9 +26,7 @@ leaderElect: true
 # Security Note: The operator needs RBAC permissions to read this secret.
 # The secret should be in the same namespace as the operator deployment.
 defaultTokenSecret:
-  # Example: "aiven-token"
   name: ""
-  # Secret key containing the Aiven API token
   key: token
 
 # webhhook configuration
