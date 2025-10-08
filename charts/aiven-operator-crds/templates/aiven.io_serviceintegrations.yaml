@@ -80,20 +80,14 @@ spec:
                   description: Clickhouse Kafka configuration values
                   properties:
                     tables:
-                      description:
-                        Array of table configurations that define how Kafka
-                        topics are mapped to ClickHouse tables. Each table configuration
-                        specifies the table structure, associated Kafka topics, and
-                        read/write settings.
+                      description: Tables to create
                       items:
                         description: Table to create
                         properties:
                           auto_offset_reset:
                             description:
-                              Determines where to start reading from Kafka
-                              when no offset is stored or the stored offset is out of
-                              range. 'earliest' starts from the beginning, 'latest'
-                              starts from the end.
+                              Action to take when there is no initial offset
+                              in offset store or the desired offset is out of range
                             enum:
                               - beginning
                               - earliest
@@ -103,26 +97,17 @@ spec:
                               - smallest
                             type: string
                           columns:
-                            description:
-                              Array of column definitions that specify the
-                              structure of the ClickHouse table. Each column maps to
-                              a field in the Kafka messages.
+                            description: Table columns
                             items:
                               description: Table column
                               properties:
                                 name:
-                                  description:
-                                    The name of the column in the ClickHouse
-                                    table. This should match the field names in your
-                                    Kafka message format.
+                                  description: Column name
                                   maxLength: 40
                                   minLength: 1
                                   type: string
                                 type:
-                                  description:
-                                    The ClickHouse data type for this column.
-                                    Must be a valid ClickHouse data type that can handle
-                                    the data format.
+                                  description: Column type
                                   maxLength: 1000
                                   minLength: 1
                                   type: string
@@ -133,10 +118,7 @@ spec:
                             maxItems: 100
                             type: array
                           data_format:
-                            description:
-                              The format of the messages in the Kafka topics.
-                              Determines how ClickHouse parses and serializes the data
-                              (e.g., JSON, CSV, Avro).
+                            description: Message data format
                             enum:
                               - Avro
                               - AvroConfluent
@@ -154,67 +136,51 @@ spec:
                               - TabSeparated
                             type: string
                           date_time_input_format:
-                            description:
-                              Specifies how ClickHouse should parse DateTime
-                              values from text-based input formats. 'basic' uses simple
-                              parsing, 'best_effort' attempts more flexible parsing.
+                            description: Method to read DateTime from text input formats
                             enum:
                               - basic
                               - best_effort
                               - best_effort_us
                             type: string
                           group_name:
-                            description:
-                              The Kafka consumer group name. Multiple consumers
-                              with the same group name will share the workload and maintain
-                              offset positions.
+                            description: Kafka consumers group
                             maxLength: 249
                             minLength: 1
                             type: string
                           handle_error_mode:
-                            description:
-                              Defines how ClickHouse should handle errors
-                              when processing Kafka messages. 'default' stops on errors,
-                              'stream' continues processing and logs errors.
+                            description: How to handle errors for Kafka engine
                             enum:
                               - default
                               - stream
                             type: string
                           max_block_size:
                             description:
-                              Maximum number of rows to collect before flushing
-                              data between Kafka and ClickHouse.
+                              Number of row collected by poll(s) for flushing
+                              data from Kafka
                             maximum: 1000000000
                             minimum: 0
                             type: integer
                           max_rows_per_message:
                             description:
-                              Maximum number of rows that can be processed
-                              from a single Kafka message for row-based formats. Useful
-                              for controlling memory usage.
+                              The maximum number of rows produced in one
+                              kafka message for row-based formats
                             maximum: 1000000000
                             minimum: 1
                             type: integer
                           name:
-                            description:
-                              The name of the ClickHouse table to be created.
-                              This table can consume data from and write data to the
-                              specified Kafka topics.
+                            description: Name of the table
                             maxLength: 40
                             minLength: 1
                             type: string
                           num_consumers:
-                            description:
-                              Number of Kafka consumers to run per table
-                              per replica. Increasing this can improve throughput but
-                              may increase resource usage.
+                            description: The number of consumers per table per replica
                             maximum: 10
                             minimum: 1
                             type: integer
                           poll_max_batch_size:
                             description:
-                              Maximum number of messages to fetch in a single
-                              Kafka poll operation for reading.
+                              Maximum amount of messages to be polled in
+                              a single Kafka poll
                             maximum: 1000000000
                             minimum: 0
                             type: integer
@@ -226,102 +192,25 @@ spec:
                             maximum: 30000
                             minimum: 0
                             type: integer
-                          producer_batch_num_messages:
-                            description:
-                              The maximum number of messages in a batch sent
-                              to Kafka. If the number of messages exceeds this value,
-                              the batch is sent.
-                            maximum: 1000000
-                            minimum: 1
-                            type: integer
-                          producer_batch_size:
-                            description:
-                              The maximum size in bytes of a batch of messages
-                              sent to Kafka. If the batch size is exceeded, the batch
-                              is sent.
-                            maximum: 2147483647
-                            minimum: 0
-                            type: integer
-                          producer_compression_codec:
-                            description:
-                              The compression codec to use when sending a
-                              batch of messages to Kafka.
-                            enum:
-                              - gzip
-                              - lz4
-                              - none
-                              - snappy
-                              - zstd
-                            type: string
-                          producer_compression_level:
-                            description:
-                              "The compression level to use when sending
-                              a batch of messages to Kafka. Usable range is algorithm-dependent:
-                              [0-9] for gzip; [0-12] for lz4; only 0 for snappy; -1
-                              = codec-dependent default compression level."
-                            maximum: 12
-                            minimum: -1
-                            type: integer
-                          producer_linger_ms:
-                            description:
-                              The time in milliseconds to wait for additional
-                              messages before sending a batch. If the time is exceeded,
-                              the batch is sent.
-                            maximum: 900000
-                            minimum: 0
-                            type: integer
-                          producer_queue_buffering_max_kbytes:
-                            description:
-                              The maximum size of the buffer in kilobytes
-                              before sending
-                            maximum: 2147483647
-                            minimum: 0
-                            type: integer
-                          producer_queue_buffering_max_messages:
-                            description:
-                              The maximum number of messages to buffer before
-                              sending
-                            maximum: 2147483647
-                            minimum: 0
-                            type: integer
-                          producer_request_required_acks:
-                            description:
-                              "The number of acknowledgements the leader
-                              broker must receive from ISR brokers before responding
-                              to the request: 0=Broker does not send any response/ack
-                              to client, -1 will block until message is committed by
-                              all in sync replicas (ISRs)."
-                            maximum: 1000
-                            minimum: -1
-                            type: integer
                           skip_broken_messages:
                             description:
-                              Number of broken messages to skip before stopping
-                              processing when reading from Kafka. Useful for handling
-                              corrupted data without failing the entire integration.
+                              Skip at least this number of broken messages
+                              from Kafka topic per block
                             maximum: 1000000000
                             minimum: 0
                             type: integer
                           thread_per_consumer:
                             description:
-                              When enabled, each consumer runs in its own
-                              thread, providing better isolation and potentially better
-                              performance for high-throughput scenarios.
+                              Provide an independent thread for each consumer.
+                              All consumers run in the same thread by default.
                             type: boolean
                           topics:
-                            description:
-                              Array of Kafka topics that this table will
-                              read data from or write data to. Messages from all specified
-                              topics will be inserted into this table, and data inserted
-                              into this table will be published to the topics.
+                            description: Kafka topics
                             items:
                               description: Kafka topic
                               properties:
                                 name:
-                                  description:
-                                    The name of the Kafka topic to read messages
-                                    from or write messages to. The topic must exist
-                                    in the Kafka cluster.
+                                  description: Name of the topic
                                   maxLength: 249
                                   minLength: 1
                                   type: string
