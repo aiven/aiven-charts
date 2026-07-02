@@ -42,6 +42,7 @@ rules:
       - kafkaconnectors
       - kafkaconnects
       - kafkanativeacls
+      - kafkaquotas
       - kafkas
       - kafkaschemaregistryacls
       - kafkaschemas
@@ -80,6 +81,8 @@ rules:
       - kafkaacls/finalizers
       - kafkaconnectors/finalizers
       - kafkaconnects/finalizers
+      - kafkanativeacls/finalizers
+      - kafkaquotas/finalizers
       - kafkas/finalizers
       - kafkaschemaregistryacls/finalizers
       - kafkaschemas/finalizers
@@ -115,6 +118,7 @@ rules:
       - kafkaconnectors/status
       - kafkaconnects/status
       - kafkanativeacls/status
+      - kafkaquotas/status
       - kafkas/status
       - kafkaschemaregistryacls/status
       - kafkaschemas/status
@@ -133,12 +137,6 @@ rules:
     verbs:
       - get
       - patch
-      - update
-  - apiGroups:
-      - aiven.io
-    resources:
-      - kafkanativeacls/finalizers
-    verbs:
       - update
   - apiGroups:
       - coordination.k8s.io
