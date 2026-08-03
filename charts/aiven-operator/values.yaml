@@ -10,6 +10,11 @@ metricsBindAddress: ""
 healthProbeBindAddress: ""
 leaderElect: true
 
+extraEnvs: []
+## Set extra envs for the deployment
+# - name: MY_ENV
+#   value: "my-value"
+
 # Default Aiven Token Secret
 # Configure a single Aiven API token that can be used by all resources.
 # This eliminates the need to create token secrets in every namespace.
