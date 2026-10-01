@@ -27,7 +27,7 @@ extraEnvs: []
 #    defaultTokenSecret:
 #      name: "aiven-token"
 #      key: "token"
-# 3. Resources without authSecretRef will use this token
+# 3. All resources use this token; authSecretRef on individual resources is ignored
 #
 # Security Note: The operator needs RBAC permissions to read this secret.
 # The secret should be in the same namespace as the operator deployment.
@@ -120,3 +120,11 @@ logging:
 # Does not apply to the service kinds (Clickhouse, Flink, Grafana, Kafka, KafkaConnect, MySQL,
 # OpenSearch, PostgreSQL, Valkey), which do not re-reconcile on a fixed interval.
 pollInterval: ""
+
+# Which kinds the operator reconciles. Kinds left out get no controller and no watch, so their
+# CRDs need not be installed. Empty or "*" means all kinds.
+#   controllers: "Kafka,KafkaTopic,ServiceUser"   # only these
+#   controllers: "*,-Flink,-Grafana"              # all but these
+# Kind names are case-insensitive; unknown names are rejected at startup.
+# With --set, escape the commas: --set 'controllers=*\,-Flink'.
+controllers: ""
